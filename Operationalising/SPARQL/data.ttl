@@ -1,0 +1,46 @@
+@prefix bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://example.org/> .
+
+# Define Agents
+:agent1 a bk:EconomicAgent ;
+    rdfs:label "Merchant A" .
+
+:agent2 a bk:EconomicAgent ;
+    rdfs:label "Merchant B" .
+
+# Define Units
+:BaselGulden a bk:Unit ;
+    rdfs:label "Basel Gulden" .
+
+# Define Time Span
+:timespan1 a crm:E52_Time-Span ;
+    crm:P82_at_some_time_within "1620-05-15"^^xsd:date .
+
+# Define Entry
+:entry1 a bk:Entry ;
+    bk:text "Payment for goods" ;
+    bk:source :source1 .
+
+# Define Source
+:source1 a bk:Document ;
+    rdfs:label "Ledger Book 1620" .
+
+# Define Transaction
+:transaction1 a bk:Transaction ;
+    bk:consistsOf :transfer1 ;
+    bk:when :timespan1 ;
+    bk:entry :entry1 .
+
+# Define Transfer
+:transfer1 a bk:Transfer ;
+    bk:from :agent1 ;
+    bk:to :agent2 ;
+    bk:transfers :moneyAmount1 .
+
+# Define MoneyAmount
+:moneyAmount1 a bk:MoneyAmount ;
+    bk:value "1000"^^xsd:decimal ;
+    bk:unit :BaselGulden .

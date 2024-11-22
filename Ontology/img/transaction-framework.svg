@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 1500 1000">
+    <defs>
+        <marker id="inheritance" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+            <path d="M 0 0 L 10 4 L 0 8 L 2 4 Z" fill="white" stroke="#495057"/>
+        </marker>
+        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#495057"/>
+        </marker>
+    </defs>
+
+    <!-- EconomicAgent -->
+    <g transform="translate(600,20)">
+        <rect width="250" height="100" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">EconomicAgent</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <line x1="0" y1="45" x2="250" y2="45" stroke="#495057" stroke-dasharray="2,2"/>
+        <text x="20" y="65" font-family="Arial" font-size="12">⊆ crm:E39_Actor</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">⊆ rea:EconomicAgent</text>
+    </g>
+
+    <!-- EconomicResource -->
+    <g transform="translate(1000,200)">
+        <rect width="250" height="100" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">EconomicResource</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <line x1="0" y1="45" x2="250" y2="45" stroke="#495057" stroke-dasharray="2,2"/>
+        <text x="20" y="65" font-family="Arial" font-size="12">⊆ crm:E72_Legal_Object</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">⊆ rea:EconomicResource</text>
+    </g>
+
+    <!-- Transaction -->
+    <g transform="translate(200,200)">
+        <rect width="250" height="250" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">Transaction</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• status: TransactionStatus [0..1]</text>
+        <text x="20" y="110" font-family="Arial" font-size="12">• consistsOf: Transfer [1..*]</text>
+        <text x="20" y="135" font-family="Arial" font-size="12">• when: Time-Span [0..1]</text>
+        <text x="20" y="160" font-family="Arial" font-size="12">• where: Place [0..1]</text>
+        <text x="20" y="185" font-family="Arial" font-size="12">• entry: Entry [1..1]</text>
+        <line x1="0" y1="200" x2="250" y2="200" stroke="#495057" stroke-dasharray="2,2"/>
+        <text x="20" y="220" font-family="Arial" font-size="12">⊆ crm:E7_Activity</text>
+        <text x="20" y="240" font-family="Arial" font-size="12">⊆ rea:EconomicEvent</text>
+    </g>
+
+    <!-- Transfer -->
+    <g transform="translate(600,200)">
+        <rect width="250" height="170" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">Transfer</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• from: EconomicAgent [0..1]</text>
+        <text x="20" y="110" font-family="Arial" font-size="12">• to: EconomicAgent [0..1]</text>
+        <text x="20" y="135" font-family="Arial" font-size="12">• transfers: EconomicResource [1..*]</text>
+        <line x1="0" y1="145" x2="250" y2="145" stroke="#495057" stroke-dasharray="2,2"/>
+        <text x="20" y="165" font-family="Arial" font-size="12">⊆ crm:E7_Activity</text>
+    </g>
+
+    <!-- Specialized Classes -->
+    <g transform="translate(100,550)">
+        <rect width="250" height="120" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">SubtotalTransaction</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• summarizes: Transaction [1..*]</text>
+    </g>
+
+    <g transform="translate(400,550)">
+        <rect width="250" height="120" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">TotalTransaction</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• summarizes: Transaction [1..*]</text>
+        <text x="20" y="110" font-family="Arial" font-size="12">• includesSubtotals: SubtotalTx [0..*]</text>
+    </g>
+
+    <g transform="translate(700,550)">
+        <rect width="250" height="120" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">LiabilityTransfer</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• settles: Liability [1..1]</text>
+    </g>
+
+    <g transform="translate(1000,550)">
+        <rect width="250" height="120" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+        <text x="125" y="25" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">ServiceDelivery</text>
+        <line x1="0" y1="40" x2="250" y2="40" stroke="#495057"/>
+        <text x="10" y="60" font-family="Arial" font-size="12">Properties:</text>
+        <text x="20" y="85" font-family="Arial" font-size="12">• fulfills: ServiceRight [0..*]</text>
+    </g>
+
+    <!-- Relationships -->
+    <!-- Transaction to Transfer (consistsOf) -->
+    <path d="M 450,280 L 600,280" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="490" y="270" font-family="Arial" font-size="12">consistsOf [1..*]</text>
+
+    <!-- Transfer to EconomicAgent -->
+    <path d="M 725,200 L 725,120" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="670" y="170" font-family="Arial" font-size="12" text-anchor="end">from [0..1]</text>
+    <text x="780" y="170" font-family="Arial" font-size="12">to [0..1]</text>
+
+    <!-- Transfer to EconomicResource -->
+    <path d="M 850,280 L 1000,280" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="900" y="270" font-family="Arial" font-size="12">transfers [1..*]</text>
+
+    <!-- Inheritance -->
+    <path d="M 325,450 L 225,550" stroke="#495057" stroke-width="1.5" marker-end="url(#inheritance)"/>
+    <path d="M 325,450 L 525,550" stroke="#495057" stroke-width="1.5" marker-end="url(#inheritance)"/>
+    
+    <path d="M 725,370 L 825,550" stroke="#495057" stroke-width="1.5" marker-end="url(#inheritance)"/>
+    <path d="M 725,370 L 1125,550" stroke="#495057" stroke-width="1.5" marker-end="url(#inheritance)"/>
+</svg>

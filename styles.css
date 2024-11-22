@@ -1,0 +1,291 @@
+/* ========== Base Styles ========== */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #2C3E50;
+    --background-light: #f8f9fa;
+    --background-gradient: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --transition-standard: all 0.2s ease-in-out;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: var(--secondary-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* ========== Navigation ========== */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    padding: 1rem 0;
+    transition: var(--transition-standard);
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: var(--transition-standard);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color);
+}
+
+/* ========== Hero Section ========== */
+.hero {
+    min-height: 75vh;
+    background: var(--background-gradient);
+    padding: 8rem 0 6rem;
+    position: relative;
+}
+
+.hero .display-4 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.hero .lead {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+    opacity: 0.9;
+}
+
+.hero-image {
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-standard);
+}
+
+.hero-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* ========== Section Styles ========== */
+section {
+    padding: 4rem 0;
+}
+
+.section-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-standard);
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.section-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.section-card .card-body {
+    padding: 2rem;
+}
+
+.section-card .card-title {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+/* ========== GitHub Section ========== */
+.github-stats {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.github-stats i {
+    color: var(--secondary-color);
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+.repository-list {
+    list-style: none;
+    padding: 0;
+}
+
+.repository-item {
+    padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background-color: white;
+    transition: var(--transition-standard);
+}
+
+.repository-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.repository-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.repository-meta i {
+    margin-right: 0.25rem;
+}
+
+/* ========== Publications Section ========== */
+.publication-card {
+    background-color: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: var(--transition-standard);
+}
+
+.publication-card:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+/* ========== Button Styles ========== */
+.btn {
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
+    transition: var(--transition-standard);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* ========== Footer ========== */
+footer {
+    background-color: var(--background-light);
+    padding: 4rem 0;
+    margin-top: 4rem;
+}
+
+.social-links a {
+    color: var(--secondary-color);
+    font-size: 1.25rem;
+    margin-left: 1.5rem;
+    transition: var(--transition-standard);
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* ========== Responsive Styles ========== */
+@media (max-width: 992px) {
+    .hero {
+        padding: 6rem 0 4rem;
+    }
+
+    .hero .display-4 {
+        font-size: 2.5rem;
+    }
+
+    .hero .lead {
+        font-size: 1.25rem;
+    }
+
+    .hero-image {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .section-card {
+        margin-bottom: 1rem;
+    }
+
+    .social-links a {
+        margin-left: 1rem;
+    }
+}
+
+/* ========== Animations ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero > * {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* ========== Print Styles ========== */
+@media print {
+    .navbar, .hero-image, .btn, .social-links {
+        display: none;
+    }
+    
+    body {
+        font-size: 12pt;
+    }
+    
+    .hero {
+        padding: 2rem 0;
+        min-height: auto;
+    }
+    
+    .section-card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* ========== Utilities ========== */
+.shadow-hover {
+    transition: var(--transition-standard);
+}
+
+.shadow-hover:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

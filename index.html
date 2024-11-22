@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Information | Christopher Pollin</title>
+    
+    <!-- CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#home">HistInfo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#thesis">Thesis</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#repositories">Repositories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#materials">Materials</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/chpollin/HistInfo" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">Modelling, Operationalising and Exploring Historical Information</h1>
+                    <p class="lead mb-4">Using Historical Financial Sources as an Example</p>
+                    <p class="mb-4">A PhD thesis by Christopher Pollin, Department of Digital Humanities, University of Graz</p>
+                    <div class="d-flex gap-3">
+                        <a href="#thesis" class="btn btn-primary">Read Thesis</a>
+                        <a href="https://github.com/chpollin/HistInfo" class="btn btn-outline-dark" target="_blank">
+                            <i class="fab fa-github me-2"></i>View on GitHub
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <img src="/api/placeholder/400/400" alt="DEPCHA visualization" class="img-fluid rounded shadow hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <!-- Thesis Section -->
+        <section id="thesis" class="mb-5">
+            <h2 class="mb-4">Thesis Overview</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="section-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Historical Information</h5>
+                            <p class="card-text">Theoretical foundations and characteristics of historical information, focusing on uncertainty, context sensitivity, and multiperspectivity.</p>
+                            <a href="https://github.com/chpollin/HistInfo/chapters/historical_information.md" class="btn btn-sm btn-outline-primary">Read Chapter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="section-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Bookkeeping Ontology</h5>
+                            <p class="card-text">Development and implementation of an ontology for representing historical financial information.</p>
+                            <a href="https://github.com/chpollin/HistInfo/chapters/bookkeeping_ontology.md" class="btn btn-sm btn-outline-primary">Read Chapter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="section-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">DEPCHA Implementation</h5>
+                            <p class="card-text">Technical implementation and workflows for managing historical financial data.</p>
+                            <a href="https://github.com/chpollin/HistInfo/chapters/depcha_implementation.md" class="btn btn-sm btn-outline-primary">Read Chapter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Repositories Section -->
+        <section id="repositories" class="mb-5">
+            <h2 class="mb-4">GitHub Repositories</h2>
+            <div class="github-stats mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <i class="fas fa-code-branch"></i> Main Repository
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fas fa-star"></i> Documentation
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fas fa-book"></i> Thesis Text
+                    </div>
+                </div>
+            </div>
+            <ul class="repository-list">
+                <li class="repository-item">
+                    <h5><i class="fab fa-github me-2"></i>HistInfo</h5>
+                    <p>Main thesis repository containing text, code, and documentation.</p>
+                    <div class="repository-meta">
+                        <span class="me-3"><i class="fas fa-code"></i> TEI XML</span>
+                        <span class="me-3"><i class="fas fa-book"></i> Markdown</span>
+                    </div>
+                    <a href="https://github.com/chpollin/HistInfo" class="btn btn-sm btn-dark mt-2">View Repository</a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="mb-5">
+            <h2 class="mb-4">Related Publications</h2>
+            <div class="publication-card">
+                <h5>Bookkeeping Ontology: A Formal Model for Historical Financial Information</h5>
+                <p class="mb-2">Pollin, C., Digital Humanities Quarterly (2024)</p>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-sm btn-primary">PDF</a>
+                    <a href="#" class="btn btn-sm btn-outline-dark">DOI</a>
+                    <button class="btn btn-sm btn-outline-secondary">Cite</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Materials Section -->
+        <section id="materials" class="mb-5">
+            <h2 class="mb-4">Additional Materials</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="section-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Presentations</h5>
+                            <p class="card-text">Conference and workshop presentations related to historical information modeling.</p>
+                            <a href="https://github.com/chpollin/HistInfo/materials/presentations" class="btn btn-sm btn-outline-primary">View Presentations</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="section-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Documentation</h5>
+                            <p class="card-text">Technical documentation and user guides for the DEPCHA platform.</p>
+                            <a href="https://github.com/chpollin/HistInfo/docs" class="btn btn-sm btn-outline-primary">View Documentation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contact</h5>
+                    <p class="mb-0">Christopher Pollin</p>
+                    <p class="mb-0">Department of Digital Humanities</p>
+                    <p class="mb-0">University of Graz</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links mb-3">
+                        <a href="https://github.com/chpollin" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-orcid"></i></a>
+                    </div>
+                    <p class="mb-0">© 2024 Christopher Pollin. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

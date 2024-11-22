@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080" height="1080" viewBox="-50 -50 1080 1080" xml:space="preserve">
+<desc>Created with Fabric.js 5.2.4</desc>
+<defs>
+</defs>
+<rect x="0" y="0" width="100%" height="100%" fill="transparent"></rect>
+<g transform="matrix(1 0 0 1 540 540)" id="8bf75f8f-5e99-4e8e-8d71-7a31d04850bd"  >
+</g>
+<g transform="matrix(1 0 0 1 540 540)" id="e9c3e117-0d06-4e3f-b0e1-07fb943c2c78"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;" vector-effect="non-scaling-stroke"  x="-540" y="-540" rx="0" ry="0" width="1080" height="1080" />
+</g>
+<g transform="matrix(1 0 0 1 451.95 417.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-110" y="-45" rx="0" ry="0" width="220" height="90" />
+</g>
+<g transform="matrix(1 0 0 1 451.95 398.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-65.35" y="4.4" >EconomicResource</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 451.95 417.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: 2 2; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 429.13 434.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-67.18" y="3.77" >⊆ crm:E72_Legal_Object</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 430.46 449.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-68.51" y="3.77" >⊆ rea:EconomicResource</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 201.95 587.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-110" y="-65" rx="0" ry="0" width="220" height="130" />
+</g>
+<g transform="matrix(1 0 0 1 201.95 548.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-60.31" y="4.4" >PhysicalResource</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 201.95 567.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 130.96 584.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-29.01" y="3.77" >Properties:</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 174.25 604.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-62.3" y="3.77" >• quantity: decimal [&gt; 0]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 154.4 619.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-42.45" y="3.77" >• unit: Unit [1..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 451.95 587.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-110" y="-65" rx="0" ry="0" width="220" height="130" />
+</g>
+<g transform="matrix(1 0 0 1 451.95 548.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-17.88" y="4.4" >Right</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 451.95 567.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 380.96 584.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-29.01" y="3.77" >Properties:</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 448.87 604.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-86.92" y="3.77" >• validityPeriod: Time-Span [0..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 451.95 612.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: 2 2; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 407.78 619.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-45.83" y="3.77" >⊆ crm:E30_Right</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 701.95 587.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-110" y="-65" rx="0" ry="0" width="220" height="130" />
+</g>
+<g transform="matrix(1 0 0 1 701.95 548.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-26.45" y="4.4" >Liability</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 701.95 567.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 630.96 584.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-29.01" y="3.77" >Properties:</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 694.1 604.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-82.15" y="3.77" >• obligor: EconomicAgent [1..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 695.43 619.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-83.48" y="3.77" >• obligee: EconomicAgent [1..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 709.43 634.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-97.48" y="3.77" >• resource: EconomicResource [1..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 66.95 752.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-75" y="-30" rx="0" ry="0" width="150" height="60" />
+</g>
+<g transform="matrix(1 0 0 1 66.95 753.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-51.72" y="4.4" >EconomicGood</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 266.95 752.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-75" y="-30" rx="0" ry="0" width="150" height="60" />
+</g>
+<g transform="matrix(1 0 0 1 266.95 753.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-22.17" y="4.4" >Money</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 466.95 752.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-75" y="-30" rx="0" ry="0" width="150" height="60" />
+</g>
+<g transform="matrix(1 0 0 1 466.95 753.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-39.66" y="4.4" >ActionRight</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 701.95 772.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-110" y="-50" rx="0" ry="0" width="220" height="100" />
+</g>
+<g transform="matrix(1 0 0 1 701.95 748.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-36.94" y="4.4" >ClaimRight</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 701.95 767.82)"  >
+<line style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x1="-110" y1="0" x2="110" y2="0" />
+</g>
+<g transform="matrix(1 0 0 1 630.96 784.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-29.01" y="3.77" >Properties:</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 709.43 804.06)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="12" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-97.48" y="3.77" >• resource: EconomicResource [1..1]</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 916.95 752.82)"  >
+<rect style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-75" y="-30" rx="0" ry="0" width="150" height="60" />
+</g>
+<g transform="matrix(1 0 0 1 916.95 753.43)" style=""  >
+		<text xml:space="preserve" font-family="Arial" font-size="14" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-42.79" y="4.4" >ServiceRight</tspan></text>
+</g>
+<g transform="matrix(1 0 0 1 326.95 492.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-435, -120)" d="M 560 90 L 310 150" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 451.95 492.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-560, -120)" d="M 560 90 L 560 150" stroke-linecap="round" />
+</g>
+<g transform="matrix(0.89 -0.62 0.62 0.89 589.24 492.89)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-655, -172.5)" d="M 740 265 L 570 80" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 134.45 687.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-242.5, -315)" d="M 310 280 L 175 350" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 234.45 687.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-342.5, -315)" d="M 310 280 L 375 350" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 459.45 687.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-567.5, -315)" d="M 560 280 L 575 350" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 576.95 687.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-685, -315)" d="M 560 280 L 810 350" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 684.45 687.82)"  >
+<path style="stroke: rgb(73,80,87); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-792.5, -315)" d="M 560 280 L 1025 350" stroke-linecap="round" />
+</g>
+</svg>
