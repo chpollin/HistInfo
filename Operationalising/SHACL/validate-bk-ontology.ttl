@@ -1,0 +1,588 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rea: <http://www.example.org/rea#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+#############################
+# This SHACL file is revised based on the feedback:
+# - Ensures class inheritance constraints (e.g., Transaction as crm:E7_Activity and rea:EconomicEvent)
+# - Adds nodeKind constraints for literals and IRIs
+# - Fixes cardinalities (e.g. debit/credit in AccountingRecord)
+# - Adds language constraints where appropriate (e.g. skos:prefLabel)
+# - Provides disjointness constraints for certain classes
+# - Provides datatype constraints and ensures numeric values are literals
+# - Potential advanced constraints (pattern checking for date, if desired)
+#############################
+
+#############################
+# Utility Shapes
+#############################
+
+# A shape to ensure labels have language tags in English
+bk:LabelWithLanguageShape a sh:NodeShape ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:languageIn ("en") ;
+        sh:uniqueLang true ;
+        sh:minCount 1
+    ] .
+
+# A shape to ensure SKOS prefLabels have language tags in English
+bk:SkosPrefLabelShape a sh:NodeShape ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:datatype xsd:string ;
+        sh:languageIn ("en") ;
+        sh:uniqueLang true ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+#############################
+# Class Disjointness (Examples)
+#############################
+# Ensures that a SubtotalTransaction is not also a TotalTransaction
+bk:SubtotalTransactionDisjointShape a sh:NodeShape ;
+    sh:targetClass bk:SubtotalTransaction ;
+    sh:not [ sh:class bk:TotalTransaction ] .
+
+# Ensuring an Individual is not a Group
+bk:IndividualDisjointShape a sh:NodeShape ;
+    sh:targetClass bk:Individual ;
+    sh:not [ sh:class bk:Group ] .
+
+#############################
+# Transaction Shapes
+#############################
+
+# Transactions must be crm:E7_Activity and rea:EconomicEvent
+# We use sh:and to ensure both class constraints hold
+bk:TransactionShape a sh:NodeShape ;
+    sh:targetClass bk:Transaction ;
+    sh:and (
+        [ sh:class crm:E7_Activity ]
+        [ sh:class rea:EconomicEvent ]
+    ) ;
+    sh:property [
+        sh:path bk:consistsOf ;
+        sh:minCount 1 ;
+        sh:class bk:Transfer ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:entry ;
+        sh:class bk:Entry ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:status ;
+        sh:class bk:TransactionStatus ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:when ;
+        sh:class crm:E52_Time-Span ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:where ;
+        sh:class crm:E53_Place ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:SubtotalTransactionShape a sh:NodeShape ;
+    sh:targetClass bk:SubtotalTransaction ;
+    sh:property [
+        sh:path bk:summarizes ;
+        sh:minCount 1 ;
+        sh:class bk:Transaction ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:groupingCriteria ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+bk:TotalTransactionShape a sh:NodeShape ;
+    sh:targetClass bk:TotalTransaction ;
+    sh:property [
+        sh:path bk:summarizes ;
+        sh:minCount 1 ;
+        sh:class bk:Transaction ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:includesSubtotals ;
+        sh:class bk:SubtotalTransaction ;
+        sh:minCount 0 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:scope ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+#############################
+# Transfer Shapes
+#############################
+
+bk:TransferShape a sh:NodeShape ;
+    sh:targetClass bk:Transfer ;
+    sh:and (
+        [ sh:class crm:E7_Activity ]
+    ) ;
+    sh:property [
+        sh:path bk:transfers ;
+        sh:minCount 1 ;
+        sh:class bk:EconomicResource ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:from ;
+        sh:class bk:EconomicAgent ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:to ;
+        sh:class bk:EconomicAgent ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:sourceMention ;
+        sh:class bk:AgentMention ;
+        sh:minCount 0 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:accountingRecord ;
+        sh:class bk:AccountingRecord ;
+        sh:minCount 0 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:LiabilityTransferShape a sh:NodeShape ;
+    sh:targetClass bk:LiabilityTransfer ;
+    sh:property [
+        sh:path bk:settles ;
+        sh:class bk:Liability ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:ServiceDeliveryShape a sh:NodeShape ;
+    sh:targetClass bk:ServiceDelivery ;
+    sh:property [
+        sh:path bk:fulfills ;
+        sh:class bk:ServiceRight ;
+        sh:minCount 0 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+#############################
+# Entry Shape
+#############################
+
+bk:EntryShape a sh:NodeShape ;
+    sh:targetClass bk:Entry ;
+    sh:and (
+        [ sh:class crm:E73_Information_Object ]
+        [ sh:class prov:Entity ]
+    ) ;
+    sh:property [
+        sh:path bk:text ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path bk:source ;
+        sh:class crm:E31_Document ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path prov:wasGeneratedBy ;
+        sh:class prov:Activity ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path prov:wasAttributedTo ;
+        sh:class prov:Agent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path prov:generatedAtTime ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+#############################
+# AgentMention Shape
+#############################
+
+bk:AgentMentionShape a sh:NodeShape ;
+    sh:targetClass bk:AgentMention ;
+    sh:and (
+        [ sh:class crm:E13_Attribute_Assignment ]
+    ) ;
+    sh:property [
+        sh:path bk:agentOf ;
+        sh:class bk:EconomicAgent ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:agent ;
+        sh:class crm:E39_Actor ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:entry ;
+        sh:class bk:Entry ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:role ;
+        sh:class skos:Concept ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+#############################
+# TransactionStatus Shape
+#############################
+
+bk:TransactionStatusShape a sh:NodeShape ;
+    sh:targetClass bk:TransactionStatus ;
+    sh:subClassOf skos:Concept ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:datatype xsd:string ;
+        sh:languageIn ("en") ;
+        sh:uniqueLang true ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+#############################
+# EconomicAgent Shapes
+#############################
+
+bk:EconomicAgentShape a sh:NodeShape ;
+    sh:targetClass bk:EconomicAgent ;
+    sh:and (
+        [ sh:class crm:E39_Actor ]
+        [ sh:class rea:EconomicAgent ]
+    ) .
+
+bk:IndividualShape a sh:NodeShape ;
+    sh:targetClass bk:Individual ;
+    sh:and (
+        [ sh:class bk:EconomicAgent ]
+        [ sh:class crm:E21_Person ]
+    ) .
+
+bk:GroupShape a sh:NodeShape ;
+    sh:targetClass bk:Group ;
+    sh:and (
+        [ sh:class bk:EconomicAgent ]
+        [ sh:class crm:E74_Group ]
+    ) .
+
+#############################
+# EconomicResource Shapes
+#############################
+
+bk:EconomicResourceShape a sh:NodeShape ;
+    sh:targetClass bk:EconomicResource ;
+    sh:and (
+        [ sh:class crm:E72_Legal_Object ]
+        [ sh:class rea:EconomicResource ]
+    ) .
+
+bk:PhysicalResourceShape a sh:NodeShape ;
+    sh:targetClass bk:PhysicalResource ;
+    sh:and (
+        [ sh:class bk:EconomicResource ]
+    ) ;
+    sh:property [
+        sh:path bk:quantity ;
+        sh:datatype xsd:decimal ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:minExclusive "0"^^xsd:decimal
+    ] ;
+    sh:property [
+        sh:path bk:unit ;
+        sh:class bk:Unit ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:EconomicGoodShape a sh:NodeShape ;
+    sh:targetClass bk:EconomicGood ;
+    sh:and (
+        [ sh:class bk:PhysicalResource ]
+    ) .
+
+bk:MoneyShape a sh:NodeShape ;
+    sh:targetClass bk:Money ;
+    sh:and (
+        [ sh:class bk:PhysicalResource ]
+    ) .
+
+#############################
+# Right and Liability Shapes
+#############################
+
+bk:RightShape a sh:NodeShape ;
+    sh:targetClass bk:Right ;
+    sh:and (
+        [ sh:class crm:E30_Right ]
+        [ sh:class bk:EconomicResource ]
+    ) ;
+    sh:property [
+        sh:path bk:validityPeriod ;
+        sh:class crm:E52_Time-Span ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:ActionRightShape a sh:NodeShape ;
+    sh:targetClass bk:ActionRight ;
+    sh:and (
+        [ sh:class bk:Right ]
+    ) .
+
+bk:ClaimRightShape a sh:NodeShape ;
+    sh:targetClass bk:ClaimRight ;
+    sh:and (
+        [ sh:class bk:Right ]
+    ) ;
+    sh:property [
+        sh:path bk:resource ;
+        sh:class bk:EconomicResource ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:ServiceRightShape a sh:NodeShape ;
+    sh:targetClass bk:ServiceRight ;
+    sh:and (
+        [ sh:class bk:Right ]
+    ) .
+
+bk:LiabilityShape a sh:NodeShape ;
+    sh:targetClass bk:Liability ;
+    sh:and (
+        [ sh:class crm:E28_Conceptual_Object ]
+    ) ;
+    sh:property [
+        sh:path bk:obligor ;
+        sh:class bk:EconomicAgent ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:obligee ;
+        sh:class bk:EconomicAgent ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:dueDate ;
+        sh:datatype xsd:dateTime ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal
+    ] ;
+    sh:property [
+        sh:path bk:resource ;
+        sh:class bk:EconomicResource ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+#############################
+# Measurement Framework Shapes
+#############################
+
+bk:UnitShape a sh:NodeShape ;
+    sh:targetClass bk:Unit ;
+    sh:and (
+        [ sh:class crm:E58_Measurement_Unit ]
+    ) ;
+    sh:property [
+        sh:path bk:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path bk:type ;
+        sh:class bk:UnitType ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:UnitMentionShape a sh:NodeShape ;
+    sh:targetClass bk:UnitMention ;
+    sh:and (
+        [ sh:class crm:E13_Attribute_Assignment ]
+    ) ;
+    sh:property [
+        sh:path bk:refersTo ;
+        sh:class bk:Unit ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:source ;
+        sh:class crm:E31_Document ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:text ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+bk:UnitTypeShape a sh:NodeShape ;
+    sh:targetClass bk:UnitType ;
+    sh:subClassOf skos:Concept .
+
+bk:ConversionShape a sh:NodeShape ;
+    sh:targetClass bk:Conversion ;
+    sh:and (
+        [ sh:class crm:E28_Conceptual_Object ]
+    ) ;
+    sh:property [
+        sh:path bk:convertsFrom ;
+        sh:class bk:Unit ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:convertsTo ;
+        sh:class bk:Unit ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:formula ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+bk:MoneyAmountShape a sh:NodeShape ;
+    sh:targetClass bk:MoneyAmount ;
+    sh:and (
+        [ sh:class crm:E97_Monetary_Amount ]
+    ) ;
+    sh:property [
+        sh:path bk:value ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:minExclusive "0"^^xsd:decimal ;
+        sh:nodeKind sh:Literal
+    ] ;
+    sh:property [
+        sh:path bk:unit ;
+        sh:class bk:Unit ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+#############################
+# Accounting Framework Shapes
+#############################
+
+bk:AccountingRecordShape a sh:NodeShape ;
+    sh:targetClass bk:AccountingRecord ;
+    sh:and (
+        [ sh:class crm:E73_Information_Object ]
+    ) ;
+    sh:property [
+        sh:path bk:documents ;
+        sh:class bk:Transfer ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:debit ;
+        sh:class bk:AccountingEntry ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:credit ;
+        sh:class bk:AccountingEntry ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:period ;
+        sh:class crm:E52_Time-Span ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:AccountingEntryShape a sh:NodeShape ;
+    sh:targetClass bk:AccountingEntry ;
+    sh:and (
+        [ sh:class crm:E73_Information_Object ]
+    ) ;
+    sh:property [
+        sh:path bk:involves ;
+        sh:class bk:MoneyAmount ;
+        sh:cardinality 1 ;
+        sh:nodeKind sh:IRI
+    ] ;
+    sh:property [
+        sh:path bk:text ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path bk:category ;
+        sh:class bk:AccountCategory ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI
+    ] .
+
+bk:AccountCategoryShape a sh:NodeShape ;
+    sh:targetClass bk:AccountCategory ;
+    sh:and (
+        [ sh:class skos:Concept ]
+    ) ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:datatype xsd:string ;
+        sh:languageIn ("en") ;
+        sh:uniqueLang true ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .

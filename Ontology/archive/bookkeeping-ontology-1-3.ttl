@@ -1,0 +1,671 @@
+@prefix bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rea: <http://www.ontologyrepository.com/REA.owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://gams.uni-graz.at/o:depcha.bookkeeping>
+    rdf:type owl:Ontology ;
+    rdfs:label "Bookkeeping Ontology" ;
+    rdfs:comment "Representation of economic transactions in historical financial sources for historical research." ;
+    owl:versionInfo "Version 1.1 - Updated with corrections and improvements." .
+
+### Transaction Framework ###
+
+bk:Transaction rdf:type owl:Class ;
+    rdfs:subClassOf
+        crm:E7_Activity ,
+        rea:EconomicEvent ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:status ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:consistsOf ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:when ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:where ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:entry ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Transaction" ;
+    rdfs:comment "A discrete economic event consisting of one or more resource transfers between economic agents, occurring at a specific time or place, documented through formal entries, where each transfer represents a distinct movement of economic value." .
+
+bk:TransactionStatus rdf:type owl:Class ;
+    rdfs:label "TransactionStatus" ;
+    rdfs:comment "Status of a transaction." .
+
+bk:status rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range bk:TransactionStatus ;
+    rdfs:label "status" .
+
+bk:consistsOf rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range bk:Transfer ;
+    rdfs:label "consistsOf" ;
+    owl:inverseOf bk:isPartOf .
+
+bk:isPartOf rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:Transaction ;
+    rdfs:label "isPartOf" ;
+    owl:inverseOf bk:consistsOf .
+
+bk:when rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range crm:E52_Time-Span ;
+    rdfs:label "when" .
+
+bk:where rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range crm:E53_Place ;
+    rdfs:label "where" .
+
+bk:entry rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range bk:Entry ;
+    rdfs:label "entry" .
+
+bk:SubtotalTransaction rdf:type owl:Class ;
+    rdfs:subClassOf bk:Transaction ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:summarizes ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:groupingCriteria ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "SubtotalTransaction" ;
+    rdfs:comment "A transaction that represents the aggregate economic value of a specified subset of other transactions, differentiated by explicit grouping criteria." .
+
+bk:TotalTransaction rdf:type owl:Class ;
+    rdfs:subClassOf bk:Transaction ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:summarizes ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:includesSubtotals ;
+          owl:minCardinality "0"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:scope ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "TotalTransaction" ;
+    rdfs:comment "A transaction that represents the complete aggregate economic value of all constituent transactions within a defined scope, including their subtotals." .
+
+bk:summarizes rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain bk:Transaction ;
+    rdfs:range bk:Transaction ;
+    rdfs:label "summarizes" .
+
+bk:includesSubtotals rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:TotalTransaction ;
+    rdfs:range bk:SubtotalTransaction ;
+    rdfs:label "includesSubtotals" .
+
+bk:scope rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:TotalTransaction ;
+    rdfs:range xsd:string ;
+    rdfs:label "scope" ;
+    rdfs:comment "Describes what this total represents." .
+
+bk:groupingCriteria rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:SubtotalTransaction ;
+    rdfs:range xsd:string ;
+    rdfs:label "groupingCriteria" .
+
+bk:Transaction owl:disjointWith bk:Transfer .
+
+bk:SubtotalTransaction owl:disjointWith bk:TotalTransaction .
+
+### Transfer and its Subclasses ###
+
+bk:Transfer rdf:type owl:Class ;
+    rdfs:subClassOf crm:E7_Activity ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:from ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:to ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:transfers ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:by ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:accountingRecord ;
+          owl:minCardinality "0"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Transfer" ;
+    rdfs:comment "An atomic economic event representing the reassignment of control over one or more economic resources from one economic agent to another, characterised by a direction and specific resources involved, occurring within the context of a defined transaction." .
+
+bk:from rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:EconomicAgent ;
+    rdfs:label "from" .
+
+bk:to rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:EconomicAgent ;
+    rdfs:label "to" .
+
+bk:transfers rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:EconomicResource ;
+    rdfs:label "transfers" .
+
+bk:by rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:AgentMention ;
+    rdfs:label "by" .
+
+bk:accountingRecord rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Transfer ;
+    rdfs:range bk:AccountingRecord ;
+    rdfs:label "accountingRecord" .
+
+bk:LiabilityTransfer rdf:type owl:Class ;
+    rdfs:subClassOf bk:Transfer ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:settles ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "LiabilityTransfer" ;
+    rdfs:comment "A transfer whose essential purpose is the extinction of a specific liability through the movement of economic resources from obligor to obligee." .
+
+bk:settles rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:LiabilityTransfer ;
+    rdfs:range bk:Liability ;
+    rdfs:label "settles" .
+
+bk:ServiceDelivery rdf:type owl:Class ;
+    rdfs:subClassOf bk:Transfer ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:fulfills ;
+          owl:minCardinality "0"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "ServiceDelivery" ;
+    rdfs:comment "The concrete execution of a service by one economic agent for another, transforming a service right into delivered value through a specific activity." .
+
+bk:fulfills rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:ServiceDelivery ;
+    rdfs:range bk:ServiceRight ;
+    rdfs:label "fulfills" .
+
+bk:LiabilityTransfer owl:disjointWith bk:ServiceDelivery .
+
+### Entry ###
+
+bk:Entry rdf:type owl:Class ;
+    rdfs:subClassOf crm:E73_Information_Object ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:text ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:source ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Entry" ;
+    rdfs:comment "An information object that documents a specific transaction through structured textual representation within a source document." .
+
+bk:text rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:Entry , bk:AccountingEntry , bk:UnitMention ;
+    rdfs:range xsd:string ;
+    rdfs:label "text" .
+
+bk:source rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Entry , bk:UnitMention ;
+    rdfs:range bk:Document , crm:E31_Document ;
+    rdfs:label "source" .
+
+bk:Document rdf:type owl:Class ;
+    rdfs:subClassOf crm:E31_Document ;
+    rdfs:label "Document" .
+
+### AgentMention ###
+
+bk:AgentMention rdf:type owl:Class ;
+    rdfs:subClassOf crm:E13_Attribute_Assignment ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:agentOf ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:agent ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:entry ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:agentType ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "AgentMention" ;
+    rdfs:comment "An attribute assignment that associates a textual reference to an economic agent in a source document with both its formal actor representation and its contextual role classification." .
+
+bk:agentOf rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AgentMention ;
+    rdfs:range bk:EconomicAgent ;
+    rdfs:label "agentOf" ;
+    rdfs:comment "Links to the formal economic agent representation." .
+
+bk:agent rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AgentMention ;
+    rdfs:range crm:E39_Actor ;
+    rdfs:label "agent" ;
+    rdfs:comment "The actual actor mentioned or performing the action." .
+
+bk:agentType rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AgentMention ;
+    rdfs:range skos:Concept ;
+    rdfs:label "agentType" ;
+    rdfs:comment "The role classification of the agent (e.g., 'SourceReference', 'ActingAgent', 'Executor')." .
+
+### Agent Framework ###
+
+bk:EconomicAgent rdf:type owl:Class ;
+    rdfs:subClassOf crm:E39_Actor ,
+                   rea:EconomicAgent ;
+    rdfs:label "EconomicAgent" ;
+    rdfs:comment "An actor that has the capacity to control economic resources and participate in transfers, characterized by autonomous decision-making authority over economic resources and the ability to incur obligations." .
+
+bk:Individual rdf:type owl:Class ;
+    rdfs:subClassOf bk:EconomicAgent ,
+                   crm:E21_Person ;
+    rdfs:label "Individual" ;
+    rdfs:comment "An economic agent that acts as a singular, indivisible decision-making entity, distinguished by direct and personal control over resources and obligations." .
+
+bk:Group rdf:type owl:Class ;
+    rdfs:subClassOf bk:EconomicAgent ,
+                   crm:E74_Group ;
+    rdfs:label "Group" ;
+    rdfs:comment "An economic agent that operates through collective decision-making of multiple individuals, characterized by shared control over resources and joint responsibility for obligations." .
+
+bk:Individual owl:disjointWith bk:Group .
+
+### Economic Resource Framework ###
+
+bk:EconomicResource rdf:type owl:Class ;
+    rdfs:subClassOf crm:E72_Legal_Object ,
+                   rea:EconomicResource ;
+    rdfs:label "EconomicResource" ;
+    rdfs:comment "A quantifiable economic value under the control of an economic entity that can be transferred between entities and has defined economic characteristics." .
+
+bk:PhysicalResource rdf:type owl:Class ;
+    rdfs:subClassOf bk:EconomicResource ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:quantity ;
+          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange [
+              rdf:type rdfs:Datatype ;
+              owl:onDatatype xsd:decimal ;
+              owl:withRestrictions ( [ xsd:minExclusive "0"^^xsd:decimal ] )
+          ]
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:unit ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "PhysicalResource" ;
+    rdfs:comment "A tangible economic resource that can be physically possessed and measured." .
+
+bk:quantity rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:PhysicalResource ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "quantity" ;
+    rdfs:comment "Must be greater than 0." .
+
+bk:unit rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:PhysicalResource , bk:MoneyAmount ;
+    rdfs:range bk:Unit ;
+    rdfs:label "unit" .
+
+bk:EconomicGood rdf:type owl:Class ;
+    rdfs:subClassOf bk:PhysicalResource ;
+    rdfs:label "EconomicGood" ;
+    rdfs:comment "Physical resources quantifiable in standardized units of measurement." .
+
+bk:Money rdf:type owl:Class ;
+    rdfs:subClassOf bk:PhysicalResource ;
+    rdfs:label "Money" ;
+    rdfs:comment "Physical medium of exchange and unit of account." .
+
+bk:EconomicGood owl:disjointWith bk:Money .
+
+### Rights and Liabilities ###
+
+bk:Right rdf:type owl:Class ;
+    rdfs:subClassOf bk:EconomicResource ,
+                   crm:E30_Right ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:validityPeriod ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Right" ;
+    rdfs:comment "A legally binding claim to receive a specified service, representing both an economic resource that can be exchanged and a legal right that can be enforced within defined temporal bounds." .
+
+bk:validityPeriod rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Right ;
+    rdfs:range crm:E52_Time-Span ;
+    rdfs:label "validityPeriod" .
+
+bk:ActionRight rdf:type owl:Class ;
+    rdfs:subClassOf bk:Right ;
+    rdfs:label "ActionRight" ;
+    rdfs:comment "Transferable claim to perform quantifiable economic activities." .
+
+bk:ClaimRight rdf:type owl:Class ;
+    rdfs:subClassOf bk:Right ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:resource ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "ClaimRight" ;
+    rdfs:comment "Transferable claim to receive quantifiable economic resources." .
+
+bk:resource rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:ClaimRight , bk:Liability ;
+    rdfs:range bk:EconomicResource ;
+    rdfs:label "resource" .
+
+bk:ServiceRight rdf:type owl:Class ;
+    rdfs:subClassOf bk:Right ;
+    rdfs:label "ServiceRight" ;
+    rdfs:comment "A right that grants its holder the authority to receive specific services from a designated economic agent, where the service delivery constitutes the fulfilment of the right." .
+
+bk:Liability rdf:type owl:Class ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:obligor ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:obligee ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:dueDate ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:resource ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Liability" ;
+    rdfs:comment "An economic obligation that involves a specified economic resource, an obligor who must transfer it, and an obligee who must receive it, bounded by temporal constraints." .
+
+bk:obligor rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Liability ;
+    rdfs:range bk:EconomicAgent ;
+    rdfs:label "obligor" .
+
+bk:obligee rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Liability ;
+    rdfs:range bk:EconomicAgent ;
+    rdfs:label "obligee" .
+
+bk:dueDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:Liability ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "dueDate" .
+
+bk:ActionRight owl:disjointWith bk:ClaimRight , bk:ServiceRight .
+
+### Measurement Framework ###
+
+bk:Unit rdf:type owl:Class ;
+    rdfs:subClassOf crm:E58_Measurement_Unit ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty rdfs:label ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:type ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Unit" ;
+    rdfs:comment "A measurement unit that combines an identifying label with a specific dimensional type, serving as a standardized basis for quantifying economic resources." .
+
+bk:type rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Unit ;
+    rdfs:range bk:UnitType ;
+    rdfs:label "type" .
+
+bk:UnitType rdf:type owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "UnitType" ;
+    rdfs:comment "A concept that categorizes measurement units according to their fundamental dimensional nature, constrained to the exhaustive set of Length, Weight, Volume, Area, Currency, Time, or Count." .
+
+bk:Length rdf:type bk:UnitType ;
+    skos:prefLabel "Length" .
+
+bk:Weight rdf:type bk:UnitType ;
+    skos:prefLabel "Weight" .
+
+bk:Volume rdf:type bk:UnitType ;
+    skos:prefLabel "Volume" .
+
+bk:Area rdf:type bk:UnitType ;
+    skos:prefLabel "Area" .
+
+bk:Currency rdf:type bk:UnitType ;
+    skos:prefLabel "Currency" .
+
+bk:Time rdf:type bk:UnitType ;
+    skos:prefLabel "Time" .
+
+bk:Count rdf:type bk:UnitType ;
+    skos:prefLabel "Count" .
+
+bk:UnitType owl:disjointUnionOf ( bk:Length bk:Weight bk:Volume bk:Area bk:Currency bk:Time bk:Count ) .
+
+bk:Unit owl:disjointWith bk:UnitType .
+
+bk:UnitMention rdf:type owl:Class ;
+    rdfs:subClassOf crm:E13_Attribute_Assignment ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:refersTo ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:source ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:context ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:text ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "UnitMention" ;
+    rdfs:comment "An attribute assignment that associates a textual expression of measurement in a source document with its formal unit definition and documentary context." .
+
+bk:refersTo rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:UnitMention ;
+    rdfs:range bk:Unit ;
+    rdfs:label "refersTo" .
+
+bk:context rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:UnitMention ;
+    rdfs:label "context" .
+
+bk:Conversion rdf:type owl:Class ;
+    rdfs:subClassOf crm:E28_Conceptual_Object ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:convertsFrom ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:convertsTo ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:formula ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Conversion" ;
+    rdfs:comment "A conceptual object that defines the mathematical transformation between two specific units through a deterministic formula." .
+
+bk:convertsFrom rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Conversion ;
+    rdfs:range bk:Unit ;
+    rdfs:label "convertsFrom" .
+
+bk:convertsTo rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:Conversion ;
+    rdfs:range bk:Unit ;
+    rdfs:label "convertsTo" .
+
+bk:formula rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:Conversion ;
+    rdfs:range xsd:string ;
+    rdfs:label "formula" .
+
+### MoneyAmount ###
+
+bk:MoneyAmount rdf:type owl:Class ;
+    rdfs:subClassOf crm:E97_Monetary_Amount ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:value ;
+          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange [
+              rdf:type rdfs:Datatype ;
+              owl:onDatatype xsd:decimal ;
+              owl:withRestrictions ( [ xsd:minExclusive "0"^^xsd:decimal ] )
+          ]
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:unit ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:unit ;
+          owl:allValuesFrom [
+              rdf:type owl:Class ;
+              owl:intersectionOf (
+                  bk:Unit
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty bk:type ;
+                    owl:hasValue bk:Currency
+                  ]
+              )
+          ]
+        ] ;
+    rdfs:label "MoneyAmount" ;
+    rdfs:comment "A quantified economic value that is expressed in a specific currency unit, serving as a measure of economic worth in transactions and accounts." .
+
+bk:value rdf:type owl:DatatypeProperty ;
+    rdfs:domain bk:MoneyAmount ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "value" ;
+    rdfs:comment "Must be greater than 0." .
+
+### Accounting Framework ###
+
+bk:AccountingRecord rdf:type owl:Class ;
+    rdfs:subClassOf crm:E73_Information_Object ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:debit ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:credit ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:documents ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:period ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "AccountingRecord" ;
+    rdfs:comment "An information object that documents an economic transfer through paired debit and credit entries, representing the bidirectional flow of economic value." .
+
+bk:debit rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingRecord ;
+    rdfs:range bk:AccountingEntry ;
+    rdfs:label "debit" .
+
+bk:credit rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingRecord ;
+    rdfs:range bk:AccountingEntry ;
+    rdfs:label "credit" .
+
+bk:documents rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingRecord ;
+    rdfs:range bk:Transfer ;
+    rdfs:label "documents" .
+
+bk:period rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingRecord ;
+    rdfs:range crm:E52_Time-Span ;
+    rdfs:label "period" .
+
+bk:AccountingEntry rdf:type owl:Class ;
+    rdfs:subClassOf crm:E73_Information_Object ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:involves ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:text ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty bk:category ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "AccountingEntry" ;
+    rdfs:comment "An information object that represents one side of an economic value flow through a specific monetary amount, optionally enriched with textual description and categorical classification." .
+
+bk:involves rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingEntry ;
+    rdfs:range bk:MoneyAmount ;
+    rdfs:label "involves" .
+
+bk:category rdf:type owl:ObjectProperty ;
+    rdfs:domain bk:AccountingEntry ;
+    rdfs:range bk:AccountCategory ;
+    rdfs:label "category" .
+
+bk:AccountCategory rdf:type owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AccountCategory" ;
+    rdfs:comment "A concept that defines a specific type of economic value flow within a hierarchical classification system, characterized by a preferred label and optional explanatory elements." .
+
+### Temporal-Spatial Context Framework ###
+
+# CIDOC CRM classes and properties are assumed to be defined in the CIDOC CRM ontology and are referenced as needed.
+
+# Note: OWL cannot express arithmetic constraints directly (like ensuring debit equals credit). This constraint may be enforced using external validation mechanisms like SHACL.
+
+# Additional validation rules and temporal reasoning capabilities can be added using SHACL or SWRL, which are outside the scope of OWL and Turtle syntax.
+
