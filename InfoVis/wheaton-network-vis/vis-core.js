@@ -62,8 +62,8 @@ const quantityScale = d3.scaleLinear()
 
 // Gender colors
 const genderNodeColors = {
-  male: "#3C7FFF",
-  female: "#FF5AC4"
+  male: "#FFD700",
+  female: "#4682B4"
 };
 
 // Fallback node colors

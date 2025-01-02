@@ -289,3 +289,13 @@ footer {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.left-sidebar {
+    width: 350px; /* Increase from 300px to 350px */
+    background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
+    padding: 12px;
+    overflow-y: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    z-index: 1;
+  }

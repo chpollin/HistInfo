@@ -1,0 +1,235 @@
+/* -- Base Styles & Variables -- */
+:root {
+    --primary-color: #833a5d;
+    --secondary-color: #666666;
+    --background-color: #f7f7f7;
+    --white: #ffffff;
+  
+    /* Font families */
+    --heading-font: "Helvetica Neue", Arial, sans-serif;
+    --body-font: "Open Sans", Arial, sans-serif;
+  
+    --spacing-unit: 1rem;
+    --max-page-width: 1200px;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    font-family: var(--body-font);
+    color: var(--secondary-color);
+    line-height: 1.5;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  /* Header */
+  .page-header {
+    width: 100%;
+    max-width: var(--max-page-width);
+    background-color: var(--white);
+    padding: var(--spacing-unit);
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .page-header h1 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: 1.8rem;
+    color: var(--primary-color);
+  }
+  
+  /* Breadcrumb */
+  .breadcrumb-nav {
+    width: 100%;
+    max-width: var(--max-page-width);
+    margin-top: var(--spacing-unit);
+    padding: 0 var(--spacing-unit);
+    font-size: 0.9rem;
+  }
+  
+  .breadcrumb-nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-right: 0.5rem;
+  }
+  .breadcrumb-nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Controls Section */
+  .controls-section {
+    width: 100%;
+    max-width: var(--max-page-width);
+    padding: var(--spacing-unit);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  
+  .year-range {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .slider-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .slider-group label {
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+  
+  .slider-value {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-left: 0.3rem;
+  }
+  
+  /* Range Slider */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 200px;
+    background: transparent;
+    cursor: pointer;
+  }
+  input[type="range"]:focus {
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    background: #ccc;
+    height: 6px;
+    border-radius: 3px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--primary-color);
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    margin-top: -6px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  }
+  input[type="range"]:focus::-webkit-slider-thumb {
+    outline: 2px solid var(--primary-color);
+  }
+  input[type="range"]::-moz-range-track {
+    background: #ccc;
+    height: 6px;
+    border-radius: 3px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    background: var(--primary-color);
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  }
+  
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+  }
+  .btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background-color: #6E3053;
+  }
+  
+  /* Treemap Section */
+  .treemap-section {
+    width: 100%;
+    max-width: var(--max-page-width);
+    padding: var(--spacing-unit);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  
+  .treemap {
+    flex: 1;
+    min-height: 600px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Dynamic Legend */
+  .treemap-legend {
+    width: 100%;
+    max-width: var(--max-page-width);
+    margin: var(--spacing-unit) auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .treemap-legend .legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+  }
+  
+  .treemap-legend .legend-swatch {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    border-radius: 2px;
+    display: inline-block;
+    border: 1px solid #ccc;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    background-color: #fdfdfd;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  
+  /* Footer */
+  .page-footer {
+    width: 100%;
+    max-width: var(--max-page-width);
+    text-align: center;
+    margin-top: auto;
+    padding: var(--spacing-unit);
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+  }
+  

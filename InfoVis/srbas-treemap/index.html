@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jahrrechnungen der Stadt Basel (1535–1610)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Jahrrechnungen der Stadt Basel (1535–1610)</h1>
+  </header>
+
+  <!-- Optional Breadcrumb (not used here, but available) -->
+  <nav id="breadcrumb" class="breadcrumb-nav"></nav>
+
+  <!-- Controls Section -->
+  <section id="controls" class="controls-section">
+    <div id="year-range" class="year-range">
+      <div class="slider-group">
+        <label for="yearFromSlider">From:
+          <span id="yearFromValue" class="slider-value">1535</span>
+        </label>
+        <input
+          type="range"
+          id="yearFromSlider"
+          min="1535"
+          max="1610"
+          value="1535"
+          step="1"
+        />
+      </div>
+
+      <div class="slider-group">
+        <label for="yearToSlider">To:
+          <span id="yearToValue" class="slider-value">1610</span>
+        </label>
+        <input
+          type="range"
+          id="yearToSlider"
+          min="1535"
+          max="1610"
+          value="1610"
+          step="1"
+        />
+      </div>
+
+      <!-- Filter & Toggle Buttons -->
+      <button id="filterButton" class="btn btn-primary">Filter</button>
+      <button id="toggleButton" class="btn btn-primary">Show Ausgaben</button>
+    </div>
+  </section>
+
+  <!-- Main Treemap Container -->
+  <section id="treemap-container" class="treemap-section">
+    <div id="treemap" class="treemap"></div>
+  </section>
+
+  <!-- Legend (Populated Dynamically) -->
+  <section id="dynamic-legend" class="treemap-legend">
+    <!-- Color-coded squares inserted by JavaScript -->
+  </section>
+
+  <!-- D3 from CDN + your custom code -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

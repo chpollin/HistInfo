@@ -200,6 +200,21 @@ h6.fw-semibold {
   transition: all 0.3s ease;
 }
 
+/* Person Node Styles */
+.node-person {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  stroke: rgba(0, 0, 0, 0.15); /* Smooth border color */
+  stroke-width: 2px; /* Border thickness */
+  border-radius: 50%; /* Rounded for circular nodes */
+}
+
+.node-person:hover {
+  stroke: #0d6efd; /* Highlight border color on hover */
+  stroke-width: 3px; /* Slightly thicker border on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
+}
+
 .node:hover {
   stroke: #000;
   stroke-width: 2px;
@@ -278,4 +293,12 @@ h6.fw-semibold {
   box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
 }
 
-/* Responsiveness, etc. */
+.left-sidebar {
+  width: 350px; /* Increase from 300px to 350px */
+  background-color: #ffffff;
+  border-right: 1px solid #dee2e6;
+  padding: 12px;
+  overflow-y: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  z-index: 1;
+}
