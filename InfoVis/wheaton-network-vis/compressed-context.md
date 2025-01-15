@@ -1,135 +1,255 @@
-# vis-core.js
+# Wheaton Network Data Documentation
 
-## Primary Components
+## Overview
+This document provides a comprehensive breakdown of the Wheaton Network dataset structure, which captures historical social, economic, and educational relationships primarily in 19th century Massachusetts.
 
-### Base Structure
-- **Root SVG** 
-  - hasProperty: width, height, viewBox
-  - hasContainer: zoom-layer group
-  - hasRelation: [parent, allVisualElements]
+## Data Structure
 
-### Visual Elements Hierarchy
-- **Zoom Layer Group**
-  - hasProperty: transform matrix
-  - hasChildren: [links, nodes, labels]
-  - hasAction: zoomTransform
+### 1. Root Level Organization
+```javascript
+{
+  "relationships": [...],  // Array of relationship entries
+  "people": {...},         // Object containing person records
+  "locations": {...},      // Object containing location data
+  "commodities": {},       // Empty in current dataset
+  "statistics": {...}      // Statistical summaries
+}
+```
 
-### Node System
-- **Node Representation**
-  - hasProperty: circle element
-  - hasSize: baseRadius + sqrt(connections) * 2
-  - hasMaxRadius: 15
-  - hasRelation: [source, nodeData]
-  - hasState: [normal, dragging]
+### 2. Relationships Array
+Each entry represents a connection or transaction between entities.
 
-## Event Management
+#### Basic Structure
+```javascript
+{
+  "source": String,           // ID of initiating entity (e.g., "pers_wcdh001")
+  "target": String,           // ID of receiving entity
+  "dateStr": String,         // Date in YYYY-MM-DD format
+  "currencyOriginal": String, // Monetary amount if applicable
+  "transactionType": String,  // Type of relationship
+  "note": String,            // Descriptive text
+  "category": String,        // Broad classification
+  "economic_roles": {...},    // Present for economic transactions
+  "flow_details": {...}       // Details for economic transactions
+}
+```
 
-### Zoom Behavior
-- **Zoom Handler**
-  - hasScale: [0.2, 4]
-  - hasAction: transformGroup
-  - hasEffect: labelVisibility
-  - hasCondition: labels.display = k > 1.2
+#### Transaction Types
+- `marriage`: Matrimonial relationships
+- `residence`: Living location records
+- `education`: Educational affiliations
+- `occupation`: Professional roles
+- `service`: Service provisions
+- `commodity`: Good exchanges
 
-### Simulation Control
-- **Force Management**
-  - hasState: alpha
-  - hasTarget: alphaTarget
-  - hasAction: restart
-  - hasRelation: [affects, nodePositions]
+#### Categories
+- `social`: Social relationships
+- `residence`: Housing/location information
+- `education`: Educational connections
+- `economic`: Financial/business transactions
 
+#### Economic Roles Structure
+```javascript
+"economic_roles": {
+  "[entity_id]": [
+    // Possible roles:
+    // "service_provider"
+    // "service_recipient"
+    // "commodity_provider"
+    // "commodity_recipient"
+    // "creditor"
+    // "debtor"
+  ]
+}
+```
 
-  # Visualization Core System
-[previous structure remains...]
+#### Flow Details Structure
+```javascript
+"flow_details": {
+  "note": String,          // Transaction description
+  "source_role": [String], // Role of source entity
+  "target_role": [String], // Role of target entity
+  "quantity": String,      // Amount
+  "unit": String,          // Unit of measure
+  "commodity_id": String   // Type of commodity
+}
+```
 
-# vis-cupdate.js
+### 3. People Object
+Individual records for each person in the network.
 
-## State Management
+#### Structure
+```javascript
+{
+  "id": String,           // Format: "pers_wcdhXXX"
+  "full": String,         // Full name
+  "forenames": [{         // Array of given names
+    "name": String,
+    "type": String        // "first", "middle", or "initial"
+  }],
+  "surnames": [{          // Array of surnames
+    "name": String,
+    "type": String        // "birth", "married", or empty
+  }],
+  "birth": {
+    "date": String,       // YYYY-MM-DD format
+    "location": {
+      "settlement": String,
+      "region": String,
+      "geogName": String,
+      "full": String
+    }
+  },
+  "death": {              // Same structure as birth
+    "date": String,
+    "location": {...}
+  },
+  "education": [String],  // Educational background
+  "faith": String,        // Religious affiliation
+  "gender": String        // "male" or "female"
+}
+```
 
-### Loading State
-- **Overlay Controller** 
-  - hasProperty: loading-overlay element
-  - hasState: [visible, hidden]
-  - hasAction: hideLoading
-  - hasTransition: opacity 300ms
+### 4. Locations Object
+Geographic location records.
 
-### Count Management
-- **Node Type Counter**
-  - hasAction: updateNodeTypeCounts
-  - hasEffect: legend badges
-  - hasDisplay: totalNodes
+#### Structure
+```javascript
+{
+  "name": String,         // Full location name
+  "settlement": String,   // Town/city
+  "region": String,       // State/province
+  "geogName": String     // Geographic identifier
+}
+```
 
-- **Visibility Counter**
-  - hasAction: updateVisibleNodeCounts
-  - hasMetrics: [visibleNodes, visibleEdges]
-  - hasDisplay: counter elements
+### 5. Statistics Object
+Network-wide metrics.
 
-## Interactive Features
+#### Structure
+```javascript
+{
+  "totalTransactions": Number,     // Total recorded transactions
+  "uniquePeople": Number,          // Distinct individuals
+  "uniqueLocations": Number,       // Distinct places
+  "uniqueCommodities": Number,     // Different commodities
+  "economicRoles": {
+    "service_providers": Number,
+    "service_recipients": Number,
+    "commodity_providers": Number,
+    "commodity_recipients": Number,
+    "creditors": Number,
+    "debtors": Number
+  }
+}
+```
 
-### Search System
-- **Search Controller**
-  - hasInput: searchInput element
-  - hasAction: handleSearch
-  - hasClear: clearSearch button
-  - hasEffect: [nodeVisibility, linkVisibility]
+## Transaction Categories
 
-### Filtering System
-1. **Node Type Filters**
-   - hasElements: legend-items
-   - hasStates: [active, inactive]
-   - hasEffect: [nodeDisplay, connectedLinks]
+### Service Types
+1. Work Services
+   - Manual labor
+   - Professional services
+   - Educational services
 
-2. **Edge Type Filters**
-   - hasElements: legend-item-filters
-   - hasStates: [active, inactive]
-   - hasEffect: linkDisplay
+2. Rental Services
+   - Property rentals
+   - Equipment rentals
+   - Animal rentals
 
-### Detail Display
-- **Node Details**
-  - hasTypes: [person, default]
-  - hasProperties: [name, birth, death, faith]
-  - hasDisplay: formatted HTML
+3. Transportation Services
+   - Carting
+   - Delivery services
 
-- **Edge Details**
-  - hasProperties: [type, source, target, date, note]
-  - hasDisplay: formatted HTML
+### Commodity Types
+1. Agricultural Products
+   - Rye
+   - Corn
+   - Potatoes
+   - Other grains
 
-## Event Handlers
+2. Manufactured Goods
+   - Nails
+   - Tools
+   - Household items
+   - Books
+   - Paper products
 
-### Node Interactions
-- **Hover Effects**
-  - hasAction: showTooltip
-  - hasHighlight: connectedElements
-  - hasOpacity: [active: 1, inactive: 0.3]
+3. Consumables
+   - Food items
+   - Beverages
+   - Household supplies
 
-- **Click Behavior**
-  - hasAction: displayNodeDetails
-  - hasEvent: stopPropagation
+4. Building Materials
+   - Lumber
+   - Construction supplies
+   - Hardware
 
-### Link Interactions
-- **Hover Effects**
-  - hasAction: showTooltip
-  - hasStyle: [width: 3, opacity: 1]
-  - hasReset: [width: 1.5, opacity: 0.6]
+5. Textiles and Clothing
+   - Fabric
+   - Finished clothing
+   - Shoes
+   - Accessories
 
-- **Click Behavior**
-  - hasAction: displayEdgeDetails
-  - hasEvent: stopPropagation
+## Temporal Coverage
+- Primary Period: 1820s-1830s
+- Earliest Record: 1737
+- Latest Record: 1918
 
-### Zoom Controls
-- **Zoom Buttons**
-  - zoomIn: scale 1.5
-  - zoomOut: scale 0.75
-  - resetZoom: fitToContainer
+## Geographic Coverage
 
-## Initialization
+### Primary Locations
+Massachusetts:
+- Norton
+- Uxbridge
+- Sutton
+- Boston
+- Taunton
 
-### Simulation Control
-1. **Stability Check**
-   - hasTimeout: 2000ms
-   - hasAction: hideLoading
-   - hasEffect: updateCounts
+### Other Areas
+- Other New England locations
+- Occasional records from other regions
 
-2. **Initial Setup**
-   - updateNodeTypeCounts
-   - updateVisibleNodeCounts
+## Network Statistics
+Current dataset contains:
+- 1124 total transactions
+- 718 unique individuals
+- 47 unique locations
+- Economic role distribution:
+  * 7 service providers
+  * 28 service recipients
+  * 139 commodity providers
+  * 72 commodity recipients
+  * 0 creditors
+  * 1 debtor
+
+## Analysis Capabilities
+This dataset enables research into:
+1. Social Network Analysis
+   - Family relationships
+   - Community connections
+   - Professional networks
+
+2. Economic Patterns
+   - Trade relationships
+   - Service provisions
+   - Commodity flows
+
+3. Geographic Mobility
+   - Residential patterns
+   - Migration trends
+   - Community development
+
+4. Educational Networks
+   - School affiliations
+   - Educational patterns
+   - Institution relationships
+
+5. Professional Activities
+   - Occupational patterns
+   - Business relationships
+   - Service networks
+
+6. Religious Connections
+   - Faith affiliations
+   - Religious community patterns

@@ -1,37 +1,80 @@
+<!-- 
+  wheaton-network-vis.html
+
+  Description:
+    The primary entry point for the Wheaton Network Visualization.
+    Contains the main HTML structure, including the sidebar 
+    with filters (node types, edge types, gender, etc.), 
+    the date slider, and the main network container where 
+    the D3 visualization is rendered.
+
+  Responsibilities:
+    - Provides layout elements: sidebars, stats display, and a 
+      container for D3’s SVG network.
+    - Loads all necessary JavaScript files (wheaton-network.js, data.js, filter-handler.js, vis-core.js, vis-update.js).
+    - Hosts the loading overlay, which is hidden once the visualization completes initialization.
+
+  Dependencies:
+    - style.css for layout/styling.
+    - Scripts loaded in the following order:
+      1) wheaton-network.js (raw data or references)
+      2) data.js (builds nodesData/linksData)
+      3) filter-handler.js (manages filters, BFS calls, side-panel logic)
+      4) vis-core.js (generates the D3 force layout, adjacency, zoom, etc.)
+      5) vis-update.js (handles BFS highlights, link thickness reversion, tooltips)
+    - noUiSlider (CDN) for date range slider.
+    - Bootstrap (CDN) for basic UI and icons.
+
+  Author:
+    Christopher Pollin
+  Date:
+    2025
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wheaton Network Visualization</title>
-  <meta name="description" content="Explore typed nodes and relationships" />
+  <meta name="description" content="Explore typed nodes and relationships from the Wheaton Day Book" />
 
-  <!-- Bootstrap + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Bootstrap + Icons (optional, for styling and icons) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
 
-  <!-- noUiSlider for date slider -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" />
+  <!-- noUiSlider for the date slider -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css"
+  />
 
-  <!-- Our custom CSS -->
+  <!-- Our custom CSS (the "modern and simple design") -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Loading Overlay -->
+  <!-- Loading Overlay (fade-out once force simulation stabilizes) -->
   <div id="loadingOverlay" class="loading-overlay">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 
+  <!-- Main Layout: left sidebar + main content -->
   <div class="main-layout">
-    <!-- Left Sidebar: all filters -->
+    <!-- Left Sidebar: Stats and Filters -->
     <aside class="left-sidebar">
       <div class="sidebar-header mb-3">
         <h1 class="h5 mb-1">Wheaton Network Visualization</h1>
         <small class="text-muted">Explore typed nodes and relationships</small>
       </div>
 
+      <!-- Stats: total/visible nodes and edges -->
       <div class="sidebar-stats mb-3">
         <small>Total Nodes: <span id="totalNodes">-</span></small><br/>
         <small>Visible: <span id="visibleNodes">-</span></small><br/>
@@ -90,9 +133,9 @@
         </div>
       </div>
 
-      <!-- Show All -->
+      <!-- "Show All" button -->
       <div class="mb-3">
-        <button class="btn btn-sm btn-dark" data-filter="showAll">Show All</button>
+        <button class="btn btn-sm btn-dark w-100" data-filter="showAll">Show All</button>
       </div>
 
       <!-- Gender Filters: male/female -->
@@ -104,8 +147,38 @@
             <span>Male</span>
           </div>
           <div class="legend-item-gender" data-gender="female">
-            <span class="legend-circle" style="background-color: #4682B4"></span>
+            <span class="legend-circle" style="background-color: #4682B4;"></span>
             <span>Female</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Economic Roles -->
+      <div class="sidebar-section mb-3">
+        <h6 class="fw-semibold mb-2">Economic Roles</h6>
+        <div class="legend-grid">
+          <div class="legend-item-role" data-role="commodity_provider">
+            <span class="legend-circle" style="background-color: #845EC2;"></span>
+            <span>Commodity Provider</span>
+          </div>
+          <div class="legend-item-role" data-role="commodity_recipient">
+            <span class="legend-circle" style="background-color: #FFC75F;"></span>
+            <span>Commodity Recipient</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories: economic vs. social -->
+      <div class="sidebar-section mb-3">
+        <h6 class="fw-semibold mb-2">Categories</h6>
+        <div class="legend-grid">
+          <div class="legend-item-category" data-cat="economic">
+            <span class="legend-square bg-success"></span>
+            <span>Economic</span>
+          </div>
+          <div class="legend-item-category" data-cat="social">
+            <span class="legend-square bg-primary"></span>
+            <span>Social</span>
           </div>
         </div>
       </div>
@@ -115,18 +188,35 @@
         <h6 class="fw-semibold mb-2">Date Range</h6>
         <div id="dateRangeSlider"></div>
       </div>
+
+
     </aside>
 
-    <!-- Right Column -->
+    <!-- Main Content: details row + network container -->
     <div class="main-content">
       <!-- Node/Edge details row -->
       <div class="details-row d-flex gap-2 mb-2">
-        <div class="flex-grow-1" id="nodeDetails"></div>
-        <div class="flex-grow-1" id="edgeDetails"></div>
+        <div id="nodeDetails" class="flex-grow-1 border-end pe-2"></div>
+        <div id="edgeDetails" class="flex-grow-1 ps-2"></div>
+      </div>
+
+      <!-- Example Group Stats Panel (Optional) -->
+      <div class="group-stats-panel p-2 bg-light border rounded mb-3" style="display:none;">
+        <strong>Group Comparisons</strong>
+        <div id="groupStatsContent"><!-- JS can fill in stats for roles, genders, etc. --></div>
       </div>
 
       <!-- Network Visualization -->
-      <div class="network-container">
+      <div class="network-container position-relative">
+        <!-- (Optional) Example Mini Legend Overlay for quick reference -->
+        <div class="mini-legend-overlay p-2 bg-white border" style="display:none;">
+          <div><span style="background:#2EA043;width:10px;height:10px;display:inline-block;border-radius:50%;"></span> Location</div>
+          <div><span style="background:#F27F1B;width:10px;height:10px;display:inline-block;border-radius:50%;"></span> Institution</div>
+          <div><span style="background:#8250DF;width:10px;height:10px;display:inline-block;border-radius:50%;"></span> Commodity</div>
+          <!-- etc. -->
+        </div>
+
+        <!-- Zoom Buttons -->
         <div class="network-controls">
           <button class="btn btn-sm btn-light" id="zoomIn" title="Zoom In">
             <i class="bi bi-zoom-in"></i>
@@ -144,20 +234,21 @@
     </div>
   </div>
 
-  <!-- Libraries -->
+  <!-- Scripts -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 
-  <!-- Data definitions (must define nodesData & linksData) -->
+  <!-- Data definitions (defines nodesData & linksData) -->
   <script src="wheaton-network.js"></script>
   <script src="data.js"></script>
 
-  <!-- Filter handling code (with gender, no "person" filter) -->
+  <!-- Filter handling code (with BFS, roles, categories) -->
   <script src="filter-handler.js"></script>
 
   <!-- The main visualization core & update scripts -->
   <script src="vis-core.js"></script>
   <script src="vis-update.js"></script>
+
 </body>
 </html>

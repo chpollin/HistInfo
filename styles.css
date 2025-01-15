@@ -1,301 +1,300 @@
-/* ========== Base Styles ========== */
-:root {
-    --primary-color: #0d6efd;
-    --secondary-color: #2C3E50;
-    --background-light: #f8f9fa;
-    --background-gradient: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-    --transition-standard: all 0.2s ease-in-out;
-}
+/* style.css
+ *
+ * Modern, simple design for the Wheaton Network Visualization interface.
+ * Works seamlessly with index.html, filter-handler.js, vis-core.js, and vis-update.js.
+ * 
+ * Sections:
+ *  1) Global / Body
+ *  2) Layout (main-layout, sidebars, details row, network container)
+ *  3) Sidebar Elements (stats, filters, legend items)
+ *  4) Network Visualization (SVG container, zoom controls, tooltip)
+ *  5) Node/Edge Details (side panel, item labels)
+ *  6) Loading Overlay
+ *  7) Optional BFS highlight classes (if desired)
+ */
 
-body {
-    font-family: 'Source Sans Pro', sans-serif;
-    color: var(--secondary-color);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/* ========== Navigation ========== */
-.navbar {
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    padding: 1rem 0;
-    transition: var(--transition-standard);
-}
-
-.navbar-brand {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--secondary-color);
-}
-
-.navbar-nav .nav-link {
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    transition: var(--transition-standard);
-}
-
-.navbar-nav .nav-link:hover {
-    color: var(--primary-color);
-}
-
-/* ========== Hero Section ========== */
-.hero {
-    min-height: 75vh;
-    background: var(--background-gradient);
-    padding: 8rem 0 6rem;
-    position: relative;
-}
-
-.hero .display-4 {
-    font-size: 3.5rem;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-}
-
-.hero .lead {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: var(--secondary-color);
-    opacity: 0.9;
-}
-
-.hero-image {
-    border-radius: 8px;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition-standard);
-}
-
-.hero-image:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
-/* ========== Section Styles ========== */
-section {
-    padding: 4rem 0;
-}
-
-.section-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition-standard);
-    height: 100%;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-
-.section-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-}
-
-.section-card .card-body {
-    padding: 2rem;
-}
-
-.section-card .card-title {
-    color: var(--secondary-color);
-    margin-bottom: 1rem;
-}
-
-/* ========== GitHub Section ========== */
-.github-stats {
-    background-color: var(--background-light);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.github-stats i {
-    color: var(--secondary-color);
-    margin-right: 0.5rem;
-    width: 20px;
-    text-align: center;
-}
-
-.repository-list {
-    list-style: none;
-    padding: 0;
-}
-
-.repository-item {
-    padding: 1.5rem;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    background-color: white;
-    transition: var(--transition-standard);
-}
-
-.repository-item:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-}
-
-.repository-meta {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-.repository-meta i {
-    margin-right: 0.25rem;
-}
-
-/* ========== Publications Section ========== */
-.publication-card {
-    background-color: var(--background-light);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    transition: var(--transition-standard);
-}
-
-.publication-card:hover {
-    box-shadow: var(--shadow-sm);
-}
-
-/* ========== Button Styles ========== */
-.btn {
-    font-weight: 500;
-    padding: 0.5rem 1.25rem;
-    border-radius: 4px;
-    transition: var(--transition-standard);
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-outline-dark:hover {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
-}
-
-.btn-sm {
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-}
-
-/* ========== Footer ========== */
-footer {
-    background-color: var(--background-light);
-    padding: 4rem 0;
-    margin-top: 4rem;
-}
-
-.social-links a {
-    color: var(--secondary-color);
-    font-size: 1.25rem;
-    margin-left: 1.5rem;
-    transition: var(--transition-standard);
-}
-
-.social-links a:hover {
-    color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-/* ========== Responsive Styles ========== */
-@media (max-width: 992px) {
-    .hero {
-        padding: 6rem 0 4rem;
-    }
-
-    .hero .display-4 {
-        font-size: 2.5rem;
-    }
-
-    .hero .lead {
-        font-size: 1.25rem;
-    }
-
-    .hero-image {
-        margin-top: 2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar {
-        padding: 0.75rem 0;
-    }
-
-    .section-card {
-        margin-bottom: 1rem;
-    }
-
-    .social-links a {
-        margin-left: 1rem;
-    }
-}
-
-/* ========== Animations ========== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.hero > * {
-    animation: fadeIn 0.6s ease-out;
-}
-
-/* ========== Print Styles ========== */
-@media print {
-    .navbar, .hero-image, .btn, .social-links {
-        display: none;
-    }
-    
-    body {
-        font-size: 12pt;
-    }
-    
-    .hero {
-        padding: 2rem 0;
-        min-height: auto;
-    }
-    
-    .section-card {
-        box-shadow: none;
-        border: 1px solid #000;
-    }
-}
-
-/* ========== Utilities ========== */
-.shadow-hover {
-    transition: var(--transition-standard);
-}
-
-.shadow-hover:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.text-gradient {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.left-sidebar {
-    width: 350px; /* Increase from 300px to 350px */
+/* ---------------------------------------------------
+ * 1) GLOBAL / BODY
+ * ---------------------------------------------------
+ */
+ body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
     background-color: #ffffff;
-    border-right: 1px solid #dee2e6;
-    padding: 12px;
-    overflow-y: auto;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    z-index: 1;
+    color: #333;
   }
+  
+  a,
+  button {
+    cursor: pointer;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  
+  .small {
+    font-size: 0.875rem;
+  }
+  
+  /* ---------------------------------------------------
+   * 2) LAYOUT
+   * ---------------------------------------------------
+   */
+  
+  /* The main layout: a left sidebar + a flex column for main content */
+  .main-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* fill vertical space */
+  }
+  
+  /* The left sidebar: houses filters and stats */
+  .left-sidebar {
+    width: 260px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  /* Stats and filters are stacked vertically */
+  .sidebar-header {
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar-stats small {
+    display: block;
+    color: #555;
+  }
+  
+  /* Section blocks within the sidebar */
+  .sidebar-section {
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Main content area: includes details row + D3 container */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Row that holds node/edge details or info panel at the top */
+  .details-row {
+    min-height: 60px;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* The actual network container: the D3 area + zoom controls */
+  .network-container {
+    position: relative;
+    flex: 1; /* fill remaining vertical space */
+    border: 1px solid #ddd;
+    margin: 0 1rem 1rem 0;
+    overflow: hidden;
+  }
+  
+  /* ---------------------------------------------------
+   * 3) SIDEBAR ELEMENTS
+   * ---------------------------------------------------
+   */
+  /* Generic section titles in the sidebar */
+  .sidebar-section h6 {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  
+  /* A simple grid layout for legend items or filters */
+  .legend-grid,
+  .edge-types-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  /* Node type items, edge type items, roles, categories, etc. */
+  .legend-item,
+  .legend-item-filter,
+  .legend-item-gender,
+  .legend-item-role,
+  .legend-item-category {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    padding: 2px 0;
+  }
+  
+  .legend-item.inactive,
+  .legend-item-filter.inactive,
+  .legend-item-gender.inactive,
+  .legend-item-role.inactive,
+  .legend-item-category.inactive {
+    opacity: 0.4;
+  }
+  
+  /* Colored circle (node type, gender, or roles) */
+  .legend-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  
+  /* For edges (marriage, commodity, service, etc.) lines or squares */
+  .legend-line {
+    display: inline-block;
+    width: 24px;
+    height: 4px;
+    margin-right: 6px;
+    border-radius: 2px;
+  }
+  
+  .legend-square {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    background-color: #ccc;
+    border-radius: 2px;
+  }
+  
+  button[data-filter="showAll"] {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+  
+  /* ---------------------------------------------------
+   * 4) NETWORK VISUALIZATION (SVG, ZOOM CONTROLS, TOOLTIP)
+   * ---------------------------------------------------
+   */
+  
+  /* The zoom buttons float at top-right corner of .network-container */
+  .network-controls {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .network-controls .btn {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: 1px solid #ccc;
+  }
+  
+  /* The main SVG for D3 is full-size via flex in .network-container */
+  #networkViz {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    /* You can add a background if you like a grid or subtle pattern. */
+  }
+  
+  /* The tooltip is absolutely positioned, hidden by default */
+  .tooltip {
+    position: absolute;
+    pointer-events: none; /* let mouse pass through */
+    padding: 6px 10px;
+    background: rgba(30, 30, 30, 0.9);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    visibility: hidden;
+    z-index: 1000;
+    min-width: 120px;
+  }
+  
+  /* ---------------------------------------------------
+   * 5) NODE/EDGE DETAILS (SIDE PANEL / INFO)
+   * ---------------------------------------------------
+   */
+  
+  #nodeDetails,
+  #edgeDetails {
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    padding: 0.75rem;
+    min-height: 50px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  #nodeDetails h6,
+  #edgeDetails h6 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .details-content .detail-item {
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+  
+  .detail-item .detail-label {
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  
+  .detail-item .detail-value {
+    color: #444;
+  }
+  
+  .details-content pre {
+    background: #f0f0f0;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  /* ---------------------------------------------------
+   * 6) LOADING OVERLAY
+   * ---------------------------------------------------
+   */
+  .loading-overlay {
+    position: fixed;
+    inset: 0; /* top, right, bottom, left = 0 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.8);
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* 
+   * 7) OPTIONAL BFS HIGHLIGHT CLASSES 
+   * (If you want class-based BFS instead of inline 'attr("opacity")')
+   *
+   * .bfs-dim { opacity: 0.15; }
+   * .bfs-highlight { opacity: 0.8; }
+   * etc.
+   */
+  
+  /* 
+     NOTE: The BFS highlight in vis-update.js sets 'attr("opacity")' directly, 
+     but you can use these classes if you prefer a CSS approach, e.g.:
+  
+     .node.bfs-dim { opacity: 0.15; }
+     .link.bfs-highlight { opacity: 0.8; }
+  
+     Then in your BFS code:
+     d3.selectAll('.node').classed('bfs-dim', true).classed('bfs-highlight', false)
+     ...
+   */
+  

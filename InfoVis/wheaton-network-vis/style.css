@@ -1,304 +1,240 @@
-/* ========== Reset default margins, etc. ========== */
+/**
+ * style.css
+ *
+ * Description:
+ *   Defines the overall look and feel for the Wheaton Network Visualization:
+ *   - Sidebar layout and legend styling
+ *   - Node/edge filter "inactive" classes
+ *   - The loading overlay style
+ *   - Tooltip appearance
+ *   - Zoom controls for the network container
+ *   - Minor design improvements for a more professional look
+ *
+ * Responsibilities:
+ *   - Ensures consistent layout for the left sidebar, main content area,
+ *     and any details row or info panels.
+ *   - Provides visual cues (e.g., hover, inactive states) for toggled filters.
+ *   - Supports the "network-container" for D3 rendering.
+ *
+ * Dependencies:
+ *   - No direct JS dependencies, used by index.html
+ *   - Works in conjunction with the HTML structure defined in index.html
+ */
+
+/* Basic page layout & fonts */
 body {
   margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background-color: #f8f9fa;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+               Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  background-color: #fafafa; /* Subtle background color for a professional look */
 }
 
-/* ========== Main Two-Column Layout ========== */
+/* Main layout: left sidebar + main content */
 .main-layout {
   display: flex;
   flex-direction: row;
-  width: 100vw;
   height: 100vh;
-  overflow: hidden;
 }
 
-/* LEFT SIDEBAR */
+/* Left Sidebar */
 .left-sidebar {
-  width: 300px; /* Thin bar for filters */
-  background-color: #ffffff;
-  border-right: 1px solid #dee2e6;
-  padding: 12px;
+  width: 260px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
   overflow-y: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  z-index: 1;
 }
 
 .sidebar-header {
   margin-bottom: 1rem;
 }
 
-.sidebar-stats,
-.sidebar-section {
-  margin-bottom: 1rem;
-}
-
-h6.fw-semibold {
-  font-weight: 600;
-}
-
-/* RIGHT MAIN CONTENT */
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-}
-
-.details-row {
-  background: white;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.875rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  margin-bottom: 8px;
-  overflow: auto;
-}
-
-/* ========== Network Container ========== */
-.network-container {
-  position: relative;
-  width: 100%;
-  flex-grow: 1;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-#networkViz {
-  width: 100%;
-  height: 100%;
+.sidebar-stats small {
   display: block;
 }
 
-/* Network Controls (zoom in/out) */
-.network-controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 100;
-  display: flex;
-  gap: 4px;
-  background: rgba(255,255,255,0.9);
-  padding: 4px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+/* Reusable margin helper */
+.mb-3 {
+  margin-bottom: 1rem !important;
 }
 
-.network-controls button {
-  padding: 5px 10px;
-  border: 1px solid #dee2e6;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Each "section" within the sidebar */
+.sidebar-section {
+  margin-bottom: 1.25rem;
 }
 
-.network-controls button:hover {
-  background: #f8f9fa;
-}
-
-/* ========== Tooltip ========== */
-.tooltip {
-  position: absolute;
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.95);
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  pointer-events: none;
-  font-size: 12px;
-  z-index: 1000;
-  visibility: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  max-width: 300px;
-}
-
-/* ========== Loading Overlay ========== */
-.loading-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(255, 255, 255, 0.9);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 0.3s ease-out;
-  backdrop-filter: blur(2px);
-}
-
-/* ========== Legends & Items ========== */
-.legend-grid {
-  display: grid;
-  gap: 4px;
-}
-
+/* Legend grids for node/edge types */
+.legend-grid,
 .edge-types-grid {
-  display: grid;
-  gap: 4px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.legend-item,
-.legend-item-filter,
-.legend-item-gender {
+/* Node type items */
+.legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8125rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: opacity 0.2s;
 }
-
-.legend-item:hover,
-.legend-item-filter:hover,
-.legend-item-gender:hover {
-  background-color: rgba(0,0,0,0.05);
+.legend-item.inactive {
+  opacity: 0.4;
 }
 
 .legend-circle {
+  display: inline-block;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid rgba(0,0,0,0.1);
-  flex-shrink: 0;
+  margin-right: 6px;
 }
 
-.legend-line {
-  width: 16px;
-  height: 3px;
-  border-radius: 1px;
-  flex-shrink: 0;
-}
-
+/* Edge type items */
 .legend-item-filter {
-  border: 1px solid transparent;
-}
-.legend-item-filter:hover {
-  border-color: #dee2e6;
-}
-.legend-item-filter.active {
-  background-color: rgba(0,0,0,0.08);
-  border-color: #0d6efd;
-}
-
-/* ========== Gender Legend Classes ========== */
-.legend-item-gender.inactive {
-  opacity: 0.5;
-  background-color: rgba(0,0,0,0.08);
-}
-
-/* ========== Node & Link Styles ========== */
-.node {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* Person Node Styles */
-.node-person {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  stroke: rgba(0, 0, 0, 0.15); /* Smooth border color */
-  stroke-width: 2px; /* Border thickness */
-  border-radius: 50%; /* Rounded for circular nodes */
-}
-
-.node-person:hover {
-  stroke: #0d6efd; /* Highlight border color on hover */
-  stroke-width: 3px; /* Slightly thicker border on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
-}
-
-.node:hover {
-  stroke: #000;
-  stroke-width: 2px;
-}
-
-.node.dragging {
-  stroke: #000;
-  stroke-width: 2.5px;
-}
-
-.link {
-  stroke-opacity: 0.6;
-  transition: all 0.3s ease;
-}
-
-.link:hover {
-  stroke-opacity: 1;
-  stroke-width: 2px;
-}
-
-/* Node Colors by type (fallback) */
-.node-location { fill: #2EA043; }
-.node-institution { fill: #F27F1B; }
-.node-commodity { fill: #8250DF; }
-
-/* Link Colors */
-.link-marriage { stroke: #FF3366; }
-.link-residence { stroke: #9C3EBA; }
-.link-education { stroke: #00BCD4; }
-.link-commodity { stroke: #FF8C00; }
-.link-service { stroke: #5D4037; }
-.link-occupation { stroke: #4CAF50; }
-.link-order { stroke: #607D8B; }
-.link-cash { stroke: #FFD700; }
-.link-other { stroke: #9e9e9e; }
-
-/* Node Labels */
-.node-label {
-  font-size: 8px;
-  pointer-events: none;
-  user-select: none;
-  text-shadow:
-    -1px -1px 0 #fff,
-     1px -1px 0 #fff,
-    -1px  1px 0 #fff,
-     1px  1px 0 #fff;
-}
-
-/* ========== Details Content ========== */
-.details-content {
-  padding: 8px;
-  background: #fff;
-  border-radius: 4px;
-}
-
-.detail-item {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.legend-item-filter.inactive {
+  opacity: 0.4;
+}
+.legend-line {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  margin-right: 6px;
+  border-radius: 2px;
 }
 
-.detail-label {
-  color: #666;
-  font-weight: 500;
-  margin-right: 8px;
+/* Gender items */
+.legend-item-gender {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.legend-item-gender.inactive {
+  opacity: 0.4;
 }
 
-.detail-value {
-  color: #333;
-  text-align: right;
+/* Roles & Categories */
+.legend-item-role,
+.legend-item-category {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.legend-item-role.inactive,
+.legend-item-category.inactive {
+  opacity: 0.4;
 }
 
-.details-content.active {
-  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+/* For category squares */
+.legend-square {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 2px;
 }
 
-.left-sidebar {
-  width: 350px; /* Increase from 300px to 350px */
-  background-color: #ffffff;
-  border-right: 1px solid #dee2e6;
-  padding: 12px;
-  overflow-y: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  z-index: 1;
+/* Main content (right side) */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff; /* White background for clarity */
+}
+
+/* Network container area */
+.network-container {
+  position: relative;
+  flex: 1;
+  border: 1px solid #ddd;
+  margin: 0 1rem 1rem 0;
+  overflow: hidden;
+}
+
+/* Zoom buttons in the top right corner of .network-container */
+.network-controls {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Node/Edge details row across the top of main-content */
+.details-row {
+  min-height: 50px;
+  border-bottom: 1px solid #ddd;
+  padding: 0 1rem;
+  background-color: #f8f9fa; /* Slightly contrast background for the detail row */
+}
+
+/* Loading overlay covers entire page until sim is stable */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffb0; /* Transparent white overlay */
+  z-index: 9999;
+}
+
+/* Tooltip for node/edge hover info */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 6px 8px;
+  background: rgba(50, 50, 50, 0.85);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  visibility: hidden;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* "Show All" button styling when active */
+button[data-filter="showAll"].active {
+  box-shadow: inset 0 0 0 1px #fff;
+  background-color: #333;
+  color: #fff;
+}
+
+/* Group Stats Panel (if used) */
+.group-stats-panel {
+  display: none; /* toggled by JS if needed */
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 0 1rem 1rem 1rem;
+}
+
+/* Optional mini-legend overlay, hidden by default */
+.mini-legend-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  display: none; /* Only show via JS if needed */
+}
+
+/* Inactive or dimmed filter states: maintains transitions from old code */
+.inactive {
+  opacity: 0.4;
+  pointer-events: auto; /* still clickable, just visually dimmed */
 }
