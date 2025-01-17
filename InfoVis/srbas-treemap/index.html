@@ -12,57 +12,110 @@
     <h1>Jahrrechnungen der Stadt Basel (1535–1610)</h1>
   </header>
 
-  <!-- Optional Breadcrumb (not used here, but available) -->
-  <nav id="breadcrumb" class="breadcrumb-nav"></nav>
+  <main class="main-layout-3col">
 
-  <!-- Controls Section -->
-  <section id="controls" class="controls-section">
-    <div id="year-range" class="year-range">
-      <div class="slider-group">
-        <label for="yearFromSlider">From:
-          <span id="yearFromValue" class="slider-value">1535</span>
-        </label>
-        <input
-          type="range"
-          id="yearFromSlider"
-          min="1535"
-          max="1610"
-          value="1535"
-          step="1"
-        />
-      </div>
+    <!-- Left Pane: Controls / Dashboard -->
+    <aside class="left-pane">
+      <section class="controls-section">
 
-      <div class="slider-group">
-        <label for="yearToSlider">To:
-          <span id="yearToValue" class="slider-value">1610</span>
-        </label>
-        <input
-          type="range"
-          id="yearToSlider"
-          min="1535"
-          max="1610"
-          value="1610"
-          step="1"
-        />
-      </div>
+        <!-- Year Range Filters -->
+        <div id="year-range" class="year-range">
+          <div class="slider-group">
+            <label for="yearFromSlider">From:
+              <span id="yearFromValue" class="slider-value">1535</span>
+            </label>
+            <input
+              type="range"
+              id="yearFromSlider"
+              min="1535"
+              max="1610"
+              value="1535"
+              step="1"
+            />
+          </div>
 
-      <!-- Filter & Toggle Buttons -->
-      <button id="filterButton" class="btn btn-primary">Filter</button>
-      <button id="toggleButton" class="btn btn-primary">Show Ausgaben</button>
-    </div>
-  </section>
+          <div class="slider-group">
+            <label for="yearToSlider">To:
+              <span id="yearToValue" class="slider-value">1610</span>
+            </label>
+            <input
+              type="range"
+              id="yearToSlider"
+              min="1535"
+              max="1610"
+              value="1610"
+              step="1"
+            />
+          </div>
 
-  <!-- Main Treemap Container -->
-  <section id="treemap-container" class="treemap-section">
-    <div id="treemap" class="treemap"></div>
-  </section>
+          <!-- Filter & Toggle Buttons -->
+          <div class="button-row">
+            <button id="filterButton" class="btn btn-primary">Filter</button>
+            <button id="toggleButton" class="btn btn-primary">Show Ausgaben</button>
+          </div>
+        </div>
 
-  <!-- Legend (Populated Dynamically) -->
-  <section id="dynamic-legend" class="treemap-legend">
-    <!-- Color-coded squares inserted by JavaScript -->
-  </section>
+        <!-- Aggregator Threshold Slider -->
+        <div class="aggregator-group">
+          <label for="aggregatorSlider">
+            Subaccounts to Show:
+            <span id="aggregatorValue" class="slider-value">35</span>
+          </label>
+          <input
+            type="range"
+            id="aggregatorSlider"
+            min="5"
+            max="100"
+            value="35"
+            step="1"
+          />
+        </div>
 
-  <!-- D3 from CDN + your custom code -->
+        <!-- Extra Controls: Subaccount Search, Export, Net Balance -->
+        <div id="extra-controls" class="extra-controls">
+          <input
+            type="text"
+            id="searchBox"
+            placeholder="Search subaccount..."
+          />
+          <button id="searchButton" class="btn btn-primary">Search</button>
+          <button id="exportButton" class="btn btn-primary">Export CSV</button>
+        </div>
+
+        <!-- Net Balance Display -->
+        <div id="netBalance"></div>
+
+      </section>
+    </aside>
+
+    <!-- Center Pane: Treemap -->
+    <section class="center-pane treemap-section">
+      <div id="treemap" class="treemap"></div>
+
+      <!-- Legend (Populated Dynamically) -->
+      <section id="dynamic-legend" class="treemap-legend"></section>
+    </section>
+
+    <!-- Right Pane: Info Panel -->
+    <aside class="right-info-pane">
+      <section id="info-panel">
+        <h2>About This Prototype</h2>
+        <p>
+          This experimental prototype visualizes historical financial data 
+          from Basel (1535–1610). The treemap highlights major revenue and 
+          expenditure categories, with user controls for year‐range filtering, 
+          aggregator thresholds, subaccount search, and more.
+        </p>
+        <p>
+          Use this space to provide additional historical context, data 
+          source references, or instructions for deeper exploration.
+        </p>
+      </section>
+    </aside>
+
+  </main>
+
+  <!-- Load D3 from CDN + your custom code -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="app.js"></script>
 </body>

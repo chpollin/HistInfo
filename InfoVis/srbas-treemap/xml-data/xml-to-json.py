@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import xml.etree.ElementTree as ET
 import json
 from typing import List, Dict, Union
@@ -5,13 +6,13 @@ from pathlib import Path
 import sys
 
 def clean_uri(uri: str) -> str:
-    """Extract ID from URI string."""
+    """Extract ID from a URI string, taking the part after '#' or the last slash."""
     if not uri:
         return ""
     return uri.split('#')[-1] if '#' in uri else uri.split('/')[-1]
 
 def convert_value_type(value: str) -> Union[int, float, str]:
-    """Convert string values to appropriate types."""
+    """Attempt to convert string values to int or float; fallback to str if not possible."""
     if not value or not isinstance(value, str):
         return value
     
@@ -46,15 +47,15 @@ class SparqlXmlConverter:
             'subwarnung': 'subwarning'
         }
         
-        # Fields to exclude
+        # Fields to exclude (like 'as', 'assub')
         self.exclude_fields = {'as', 'assub'}
 
     def translate_field(self, field: str) -> str:
-        """Translate field name to English."""
+        """Translate field name to English if a mapping exists."""
         return self.field_translations.get(field, field)
 
     def parse_xml(self, file_path: Union[str, Path]) -> List[Dict]:
-        """Parse SPARQL XML results file and return structured data."""
+        """Parse one SPARQL XML results file and return a list of records."""
         file_path = Path(file_path)
         
         if not file_path.exists():
@@ -64,25 +65,26 @@ class SparqlXmlConverter:
         root = tree.getroot()
         
         results = []
+        # Each <result> block in the sparql XML
         for result in root.findall('.//sparql:result', self.namespaces):
             result_data = {}
             
             for child in result:
-                # Get tag name without namespace
+                # Get tag name without the namespace
                 tag = child.tag.split('}')[-1]
                 
                 # Skip excluded fields
                 if tag in self.exclude_fields:
                     continue
                 
-                # Get English field name
+                # Translate the field name
                 eng_tag = self.translate_field(tag)
                 
-                # Handle URI attributes - extract only the ID
+                # If there's a URI attribute, extract only the ID
                 if 'uri' in child.attrib:
                     result_data[eng_tag] = clean_uri(child.attrib['uri'])
                 else:
-                    # Convert and store the value with appropriate type
+                    # Otherwise, parse the text content, converting to int/float if possible
                     result_data[eng_tag] = convert_value_type(child.text)
             
             results.append(result_data)
@@ -90,36 +92,61 @@ class SparqlXmlConverter:
         return results
 
     def save_json(self, data: List[Dict], output_path: Union[str, Path]) -> None:
-        """Save parsed data as JSON file."""
+        """Save parsed data as a JSON file with UTF-8 encoding."""
         output_path = Path(output_path)
-        
         with output_path.open('w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
 def main():
-    """Main execution function with error handling."""
+    """Main function: parse one or more SPARQL XML files into a single JSON."""
     try:
         if len(sys.argv) < 2:
-            print("Usage: python xml-to-json.py <input_xml_file> [output_json_file]")
+            print("Usage: python xml-to-json.py <input_xml_file1> [<input_xml_file2> ...] [output_json_file]")
             sys.exit(1)
-            
-        input_file = sys.argv[1]
-        output_file = sys.argv[2] if len(sys.argv) > 2 else input_file.replace('.xml', '.json')
         
+        # Gather arguments
+        input_files = []
+        output_file = None
+
+        # Identify which arguments look like .xml vs .json
+        for arg in sys.argv[1:]:
+            if arg.lower().endswith('.xml'):
+                input_files.append(arg)
+            elif arg.lower().endswith('.json'):
+                output_file = arg
+            else:
+                # Could handle unknown file extensions differently, or assume it's an input
+                # For simplicity, let's assume it's an input file if not .json
+                input_files.append(arg)
+
+        if not input_files:
+            print("No input XML files specified.")
+            sys.exit(1)
+        
+        # If no explicit output_file was given, guess from the first input file
+        if not output_file:
+            first_xml = Path(input_files[0])
+            output_file = first_xml.with_suffix('.json').name  # e.g. "sparql-result-accounts.json"
+
         converter = SparqlXmlConverter()
-        print(f"Parsing {input_file}...")
+
+        all_results = []
+        for xml_file in input_files:
+            print(f"Parsing {xml_file}...")
+            partial_results = converter.parse_xml(xml_file)
+            print(f"  Found {len(partial_results)} results in {xml_file}")
+            all_results.extend(partial_results)
+
+        # Now we have a merged list of all results
+        converter.save_json(all_results, output_file)
         
-        results = converter.parse_xml(input_file)
-        converter.save_json(results, output_file)
-        
-        print(f"Successfully converted {len(results)} results")
+        print(f"\nSuccessfully converted/merged {len(all_results)} total results.")
         print(f"Output saved to: {output_file}")
         
-        # Print first result as example
-        
-        if results:
+        # Print a sample result if we have any
+        if all_results:
             print("\nExample of first converted entry:")
-            print(json.dumps(results[0], indent=2, ensure_ascii=False))
+            print(json.dumps(all_results[0], indent=2, ensure_ascii=False))
         
     except FileNotFoundError as e:
         print(f"Error: {e}")
