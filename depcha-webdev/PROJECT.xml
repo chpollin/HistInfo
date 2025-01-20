@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title xml:lang="en">DEPCHA - Digital Edition Publishing Cooperative for Historical
+					Accounts</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher xml:lang="de">Karl-Franzens-Universität Graz</publisher>
+				<publisher xml:lang="en">University of Graz</publisher>
+				<date when="2023">2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<bibl/>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<projectDesc>
+				<p/>
+			</projectDesc>
+		</encodingDesc>
+		<profileDesc>
+			<creation> <date when="2023">2023</date> <name type="place">Graz, Austria</name> </creation>
+			<langUsage>
+				<language ident="en">English</language>
+			</langUsage>
+		</profileDesc>
+	</teiHeader>
+	<text>
+		<body>
+			<div type="header">
+				<head>DEPCHA - Digital Edition Publishing Cooperative for Historical Accounts</head>
+			</div>
+			<div>
+				<div type="body">
+					<p>The DEPCHA (Digital Edition Publishing Cooperative for Historical Accounts)
+						project uses Semantic Web technologies to present diverse financial data
+						from historical documents on a web-based platform. The project's goal goes
+						beyond data sharing and long-term preservation, focusing on the development
+						of a web interface with exploration, visualisation and self-organisation
+						features. DEPCHA serves as a discovery and publication hub for datasets and
+						digital editions of historical financial documents, adhering to the FAIR
+						data principles. The initiative relies on GAMS, a Humanities Asset
+						Management System providing research data infrastructure, maintained by the
+						Centre for Information Modelling at the University of Graz. DEPCHA combines
+						digital editions functionalities with Semantic Web and Linked Open Data
+						concepts to create a knowledge graph detailing the different contexts and
+						research foci of the source. An interactive user interface is designed to
+						explore and analyse entities and data from historical sources. A faceted
+						analytical display, also known as a dashboard, uses information
+						visualisation to present different perspectives and use cases.</p>
+					<div>
+						<head>Workflows</head>
+						<p>Partners use different systems, some of which are data-centric and use
+							personal database systems, spreadsheets or similar environments. In
+							these cases, DEPCHA provides a method for converting data into RDF
+							format using a CSV template and a Python script using RDFlib. Python's
+							adaptability benefits the transformation process, as historical
+							information structures and representations vary from project to project
+							depending on research needs. Metadata for the dataset can also be
+							included using a simple JSON template. This process is collectively
+							referred to as the "dataset" workflow.</p>
+						<p>For other partners, such as editors, the aim is to develop a digital
+							edition that requires all information to be expressed in XML/TEI format.
+							This is particularly valuable for historians seeking contextual
+							information, as the digital edition allows for the addition of
+							additional layers of information beyond digital facsimiles,
+							transcriptions or critical editions. The semantic layer of the
+							Bookkeeping Ontology is expressed through additional annotations. This
+							is referred to as the "edition" workflow. A comprehensive tutorial for
+							different annotation scenarios in XML/TEI has been developed and can be
+							accessed via the following link: <ref
+							target="https://gams.uni-graz.at/o:depcha.tutorial#xml_tei"
+							>https://gams.uni-graz.at/o:depcha.tutorial#xml_tei</ref>.</p>
+						<p> Whatever the scenario, there are different requirements from datasets to
+							digital editions, but they all share a common feature, which is the
+							structure of transactions expressed using the Bookkeeping Ontology and
+							formalised as RDF. While datasets consist of RDF data only, the digital
+							edition includes both XML/TEI and RDF data. </p>
+					</div>
+					<div>
+						<head>Partners</head>
+						<list>
+							<item>Kathryn Tomasek, Wheaton College</item>
+							<item>Jennifer Stertzer, Center for Digital Editing</item>
+							<item>Erica Cavanaugh, Center for Digital Editing</item>
+							<item>Ben Brumfield, Brumfield Labs</item>
+							<item>Sara Brumfield, Brumfield Labs</item>
+							<item>Anna Agbe-Davies, University of North Carolina at Chapel
+								Hill</item>
+							<item>Jodi Eastberg, Alverno College</item>
+							<item>Naoki Kokaze, Chiba University</item>
+							<item>Hadewijch Masure, Stadsarchief Leuven</item>
+							<item>Michał Schmidt, Warsaw</item>
+							<item>Michał Slomski, Warsaw</item>
+							<item>Anton Büchel</item>
+							<item>Laura Morreale</item>
+							<item>Nathan Daniels</item>
+							<item>Gabriel Viehhauser, Universität Stuttgart</item>
+						</list>
+					</div>
+					<div>
+						<head>Publications and Talks</head>
+						<list>
+							<item> <ref
+								target="https://chpollin.github.io/paper/Pollin_MA_2020_Geschichte.pdf"
+								>Pollin C.: Digitale, formale Methoden und Modelle in den
+								Geschichtswissenschaften. Am Beispiel digital editierter
+								historischer Rechnungsbücher, Master Thesis. Graz. 2020.</ref> </item>
+							<item> <ref target="https://ceur-ws.org/Vol-2532/paper1.pdf">Pollin C.:
+								Digital Edition Publishing Cooperative for Historical Accounts and
+								the Bookkeeping Ontology. In: Proceedings of the Doctoral Symposium
+								on Research on OnlineDatabases in History (RODBH 2019) Leipzig.
+								2019.</ref> </item>
+						</list>
+						<list>
+							<item> <ref
+								target="https://docs.google.com/presentation/d/1CKX9n_kje3jX4q35ryAweL4KeYG2LUCXN2UrMThtM4U/edit#slide=id.gcbe598737f_0_0"
+								>Pollin C.: Mapping Semantic Constructs in Historical Domains to
+								Visual Structures as Basis for Resource Discovery Using the Example
+								of Historical Financial Records. Data for History Conference 2021,
+								Berlin. Recording. 30.07.2021. </ref>. <ref
+								target="https://www.youtube.com/watch?v=mL43KOMBCJc"
+								>Recording</ref>. </item>
+							<item> <ref
+								target="https://docs.google.com/presentation/d/1tOW9FhI6elOQDSYCfZanI5Zqc8A5mXL0F8CfsgEtzyw/edit"
+								>Pollin C.: “Dashboardfizierung” Historischer Rechnungsbücher.
+								Ontologiebasierte Informationsvisualisierung für historische Daten.
+								DH-Kolloquium BBAW. 07.05.2021.</ref> </item>
+							<item> <ref
+								target="https://docs.google.com/presentation/d/1X5Ul4Uh-KgoH58JSg2MStBMapBZQ7toAccGPrXVszfA/edit"
+								>Pollin C.: Modellierung historischer Rechnungsbücher: DEPCHA.
+								DH-Kolloquium Uni Köln. Screencast. 22.04.2021.</ref>. <ref
+								target="https://www.youtube.com/watch?v=Dsyyhn4iAaY"
+								>Screencast</ref> </item>
+							<item> <ref
+								target="https://docs.google.com/presentation/d/1-EOOyaMZog6YdYZJ4JMXVqWuTyOEz7uXx-a8Q619-TY/edit#slide=id.g5d67d6e33e_1_0"
+								>Pollin C. / Tomasek K.: Making Linkable Data from Account Books:
+								Bookkeeping Ontology in the Digital Edition Publishing Cooperative
+								for Historical Accounts, TEI Conference 2019, Graz.
+								18.11.2019.</ref> </item>
+							<item> <ref
+								target="https://docs.google.com/presentation/d/1sO90-1EdHZSGbjGM1MCGeplwbKFlEAL67y5jsYsfw-Y/edit#slide=id.g52707839b8_0_0"
+								>Pollin C.: Digital Edition Publishing Cooperative for Historical
+								Accounts and the Bookkeeping Ontology. Doctoral Symposium on
+								Research on Online Databases in History Leipzig. 04.04.2019.</ref>
+							</item>
+						</list>
+					</div>
+				</div>
+			</div>
+		</body>
+		<back/>
+	</text>
+</TEI>

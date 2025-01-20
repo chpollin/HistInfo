@@ -1,0 +1,27 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# author: Jakob Sonnberger
+# param: URI of context = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.wheaton> for $1)
+# result: sums up depcha:expenses (?debit) and depcha:revenue (?credit) for each object belonging to the context ($1) by year (?date)
+
+SELECT ?date (SUM(xsd:double(?debit)) AS ?debit) (SUM(xsd:double(?credit)) AS ?credit) ?unit
+#(GROUP_CONCAT(?aggregation; SEPARATOR=', ') AS ?aggregation)
+where{
+  ?dataset a depcha:Dataset;
+    gams:isMemberOfCollection $1;
+    depcha:aggregates ?aggregation.            
+  ?aggregation depcha:date ?date;
+    bk:unit ?unit. 
+  OPTIONAL{?aggregation depcha:expenses ?debit.}
+  OPTIONAL{?aggregation depcha:revenue ?credit.}  
+}
+GROUP BY ?date ?unit
+ORDER BY ?date

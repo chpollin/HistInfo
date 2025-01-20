@@ -1,0 +1,27 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX t: <http://www.tei-c.org/ns/1.0/>
+PREFIX gams: <https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/spec/>
+PREFIX schema: <https://schema.org/>
+
+# author:Christopher Pollin
+# param: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.wheaton> for $1)
+# result: returns all currencies from transactions
+
+# bk:Transaction = ?t, bk:Transfer = ?tr, bk:EconomicAsset = ?eA
+
+
+SELECT ?group ?name (COUNT(?t) As ?count)
+WHERE{
+  ?t a bk:Transaction ;
+     gams:isMemberOfCollection $1;
+     bk:consistsOf ?tr.
+  ?tr bk:transfers ?eA.
+  ?eA bk:unit ?group.
+  ?group rdfs:label ?name.
+  #For all currencies, try:   
+  #OPTIONAL {?group rdfs:label ?value.}
+  #BIND (COALESCE(?value, STRAFTER(STR(?group), 'uni-graz.at/')) AS ?name)
+}
+GROUP BY ?group ?name

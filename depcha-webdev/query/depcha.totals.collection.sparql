@@ -1,0 +1,29 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+
+# author: Jakob Sonnberger
+# $1: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.srbas>)
+# result: returns number of transactions, economic agents, economic goods and accounts from a for each object within a collection
+
+# ?o 			... all objects of a collection
+# ?nt     ... depcha:numberOfTransactions
+# ?nea  	... depcha:numberOfEconomicAgents 
+# ?neg  	... depcha:numberOfEconomicGoods
+# ?nacc 	... depcha:numberOfAccounts
+
+SELECT ?o ?nt ?nea ?neg ?nacc ($1 AS ?query)
+WHERE{
+  ?dataset a depcha:Dataset;
+    gams:isMemberOfCollection $1;
+    gams:isPartOf ?o;
+    depcha:numberOfTransactions ?nt;
+    depcha:numberOfEconomicAgents ?nea;
+    depcha:numberOfEconomicGoods ?neg;
+    depcha:numberOfAccounts ?nacc.
+}
+LIMIT 100

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Digital Edition Publishing Cooperative for Historical Accounts</title>
+        <author>
+          <persName>
+            <forename>Christopher</forename>
+            <surname>Pollin</surname>
+          </persName>
+        </author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName corresp="https://informationsmodellierung.uni-graz.at"
+            ref="d-nb.info/gnd/1137284463"> Zentrum für Informationsmodellierung - Austrian Centre
+            for Digital Humanities, Karl-Franzens-Universität Graz</orgName>
+        </publisher>
+        <authority>
+          <orgName corresp="https://informationsmodellierung.uni-graz.at"
+            ref="d-nb.info/gnd/1137284463"> Zentrum für Informationsmodellierung - Austrian Centre
+            for Digital Humanities, Karl-Franzens-Universität Graz</orgName>
+        </authority>
+        <date>2020</date>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl/>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <creation>
+        <date when="2020">2020</date>
+        <name type="place">Graz, Austria</name>
+      </creation>
+      <langUsage>
+        <language ident="de">German</language>
+      </langUsage>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div xml:lang="en">
+        <head type="main">Imprint</head>
+        <div>
+          <head>Project direction</head>
+          <p>
+            Georg Vogeler<lb/>
+            Centre for Information Modeling – Austrian Centre for Digital Humanities
+          </p>
+        </div>
+        <div>
+          <head>Partners</head>
+          <p>Jennifer Stertzer<lb/>
+            <ref target="http://centerfordigitalediting.org/">Center for Digital Editing</ref>,
+            University of Virginia</p>
+        </div>
+        <div>
+          <head>Web development, data modeling</head>
+          <p>
+            Christopher Pollin<lb/>
+            Jakob Sonnberger<lb/>
+            Sabrina Strutz<lb/>
+            Georg maximilian Reiter<lb/>
+            Centre for Information Modeling – Austrian Centre for Digital Humanities
+          </p>
+        </div>
+        <div>
+          <head>Financing</head>
+          <p>
+            <ref target="https://mellon.org/">The Andrew W. Mellon Foundation</ref>
+          </p>
+        </div>
+        <div>
+          <head>Identifikation</head>
+          <p>Permalink: http://gams.uni-graz.at/depcha </p>
+        </div>
+        <div>
+          <head>Technical infrastructure</head>
+          <p>
+            <ref target="http://gams.uni-graz.at">GAMS-Geisteswissenschaftliches Asset Management
+              System</ref>
+          </p>
+        </div>
+        <div>
+          <head>Licence</head>
+          <p>All content licensed under <ref target="https://creativecommons.org/licenses/by/4.0/">Creative Commons BY 4.0</ref></p>
+        </div>
+        <div>
+          <head>Implementation and publication</head>
+          <p>
+            <ref target="http://informationsmodellierung.uni-graz.at">Centre for Information
+              Modeling – Austrian Centre for Digital Humanities</ref>
+          </p>
+        </div>
+        <div>
+          <head>Information pursuant to § 5 of the Austrian ECG (E-Commerce Act)</head>
+          <p>
+            The information and services on this page are made available by
+          </p>
+          <p>
+            Karl-Franzens-Universität Graz<lb/>
+            Universitätsplatz 3<lb/>
+            8010 Graz, Austria<lb/>
+            E-Mail: <ref target="mailto:zim@uni-graz.at">zim@uni-graz.at</ref><lb/>
+            Tel.: +43-(0)316 380 2292
+          </p>
+        </div>
+        <div>
+          <head>Design</head>
+          <p>
+            Internetagentur <ref target="http://wukonig.com/">wukonig.com</ref>
+            <lb/>
+            Layout based on <ref target="http://getbootstrap.com/">Bootstrap</ref>
+          </p>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

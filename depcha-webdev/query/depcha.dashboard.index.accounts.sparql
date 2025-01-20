@@ -1,0 +1,22 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX t: <http://www.tei-c.org/ns/1.0/>
+PREFIX gams: <https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/spec/>
+PREFIX schema: <https://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+# author: Jakob Sonnberger
+# param: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.lviv> for $1)
+# result: returns all bk:Account (?group) and their rdfs:label (?name)
+
+#?group ... bk:Account
+#?name .... bk:Account/rdfs:label
+SELECT ?group ?name (COUNT(?group) As ?count)
+WHERE{
+  ?group a bk:Account;
+     skos:inScheme $1.
+  OPTIONAL {?group rdfs:label ?name.}     
+}
+GROUP BY ?group ?name

@@ -1,0 +1,30 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+
+# author:Christopher Pollin
+# param: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.wheaton> for $1)
+# result: this query gets the metadata from void:Dataset
+
+
+SELECT ?dataset ?numberOfTransactions ?numberOfTransfers ?numberOfEconomicAgents ?numberOfAccounts ?numberOfEconomicGoods ?numberOfPlaces ?unit ?unit_label  ($1 As ?query)
+
+where{
+  ?dataset a depcha:Dataset;
+    gams:isMemberOfCollection $1;
+  OPTIONAL{?dataset depcha:numberOfTransactions ?numberOfTransactions.}
+  OPTIONAL{?dataset depcha:numberOfTransfers ?numberOfTransfers.}
+  OPTIONAL{?dataset depcha:numberOfEconomicAgents ?numberOfEconomicAgents.}
+  OPTIONAL{?dataset depcha:numberOfAccounts ?numberOfAccounts.}
+  OPTIONAL{?dataset depcha:numberOfEconomicGoods ?numberOfEconomicGoods.}
+  OPTIONAL{?dataset depcha:numberOfPlaces ?numberOfPlaces.}
+  OPTIONAL{?dataset depcha:isMainCurrency ?unit.
+    OPTIONAL{?unit rdfs:label ?unit_label. }
+  }  
+}
+LIMIT 4000

@@ -1,0 +1,25 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX t: <http://www.tei-c.org/ns/1.0/>
+PREFIX gams: <https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/spec/>
+PREFIX schema: <https://schema.org/>
+
+# author:Christopher Pollin
+# param: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.schlandersberger> for $1)
+# result: returns all schema:Places in bk:Transaction with their name, settlement (schema:containedInPlace), longitude and latitude details.
+
+# bk:Transaction = ?t 
+
+SELECT ?group ?name (GROUP_CONCAT(DISTINCT ?containedInPlace; SEPARATOR=", ") AS ?containedInPlace) ?longitude ?latitude (COUNT(?t) As ?count)
+WHERE{
+  ?t a bk:Transaction ;
+     gams:isMemberOfCollection $1;
+     bk:where ?group.
+  ?group schema:name ?name
+  OPTIONAL{?group schema:containedInPlace ?containedInPlace.}
+  OPTIONAL{?group schema:longitude ?longitude.}
+  OPTIONAL{?group schema:latitude ?latitude.}   
+
+}
+GROUP BY ?group ?name ?longitude ?latitude ?count

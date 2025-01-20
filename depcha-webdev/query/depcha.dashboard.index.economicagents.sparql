@@ -1,0 +1,23 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX t: <http://www.tei-c.org/ns/1.0/>
+PREFIX gams: <https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/spec/>
+PREFIX schema: <https://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# author:Christopher Pollin
+# param: URI of dataset = Collection, referenced by gams:isMemberOfCollection (e.g. <https://gams.uni-graz.at/context:depcha.wheaton> for $1)
+# result: returns all bk:EconomicAgents (bk:from and bk:to) involved in bk:Transaction and all their poperties (?prop) to classes (?value)
+
+# bk:Transaction = ?t, bk:Transfer = ?tr
+
+SELECT ?group ?prop ?value ?name (COUNT(?t) As ?count)
+WHERE{
+  ?t a bk:Transaction ;
+     gams:isMemberOfCollection $1.
+  ?t bk:consistsOf ?tr.
+  ?tr bk:from|bk:to ?group.
+  OPTIONAL{?group rdfs:label ?name.}     
+}
+GROUP BY ?group ?prop ?value ?name  

@@ -1,0 +1,71 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+
+# author: Christopher Pollin
+# param: URI of Economic Agent, e.g.: <https://gams.uni-graz.at/context:depcha.wheaton#pers_WCDH002>
+# result: returns transactions involving (bk:from|bk:to) a specific economic agent (named in the param)
+
+# ?c  ... measurable_class (bk:classified of ?m)
+# ?cl ... measurable_class_label (e.g.: 'work')
+# ?e  ... bk:entry
+# ?f  ... bk:from
+# ?fn ... from_label
+# ?m  ... measurable
+# ?ml ... measurable_type_label ('Commodity'|'Monetary Value'|'Service')
+# ?mt ... measurable_type (bk:Commodity|bk:Money|bk:Service)
+# ?q  ... bk:quantity
+# ?t  ... bk:Transaction
+# ?tn ... to_label
+# ?to ... bk:to
+# ?tr ... bk:Transfer
+# ?u  ... bk:unit
+# ?ul ... unit_label
+# ?w  ... bk:when
+
+SELECT ?t ?tr ?e ?w ?f ?fn ?to ?tn (GROUP_CONCAT(?measure; SEPARATOR = '; ') AS ?measure) ?c ?cl ?ml ($1 as ?query) ?query_label
+#?query und ?query_label blähen result ziemlich auf; 
+#?query_label brauche für 'Search for ... returned ...'
+WHERE{  
+  ?t a bk:Transaction;
+    bk:consistsOf ?tr;
+    bk:entry ?e.
+  OPTIONAL{?t bk:when ?w.}
+	
+  ?tr bk:from|bk:to $1;
+    bk:transfers ?m.
+  OPTIONAL{
+    ?tr bk:from ?f.
+    OPTIONAL{?f rdfs:label ?fn.}
+  }
+  OPTIONAL{
+    ?tr bk:to ?to.
+    OPTIONAL{?to rdfs:label ?tn.}
+  }
+
+  ?m a ?mt;
+    bk:unit ?u;
+    bk:quantity ?q.
+
+   OPTIONAL {
+    ?mt rdfs:label ?ml.
+    FILTER (LANG(?ml)='en')
+  }
+
+  OPTIONAL{?u rdfs:label ?ul.}
+
+  BIND (CONCAT(?q, ' ', COALESCE(?ul, STRAFTER(STR(?u), '#'))) AS ?measure)
+  
+  OPTIONAL{
+    ?m bk:classified ?c.
+    OPTIONAL{?c rdfs:label ?cl.}
+  }
+
+  OPTIONAL{$1 rdfs:label ?query_label.}
+}
+GROUP BY ?t ?tr ?e ?w ?f ?fn ?to ?tn ?c ?cl ?ml ?query ?query_label
+LIMIT 5000

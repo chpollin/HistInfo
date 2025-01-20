@@ -1,0 +1,30 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+
+# author: Sabrina Strutz feat. Jakob Sonnberger
+# result: returns aggregated number of transactions, economic agents, economic goods and accounts from a collection
+
+
+# ?set 			... all items of a collection
+# ?nt   		... depcha:numberOfTransactions
+# ?nea  		... depcha:numberOfEconomicAgents 
+# ?neg  		... depcha:numberOfEconomicGoods
+# ?nacc 		... depcha:numberOfAccounts
+# ?collection 	... name of depcha collection
+
+SELECT (STRAFTER(STR(?collection),"https://gams.uni-graz.at/") AS ?collectionID) (sum(xsd:integer(?nt)) as ?int_nt) (sum(xsd:integer(?nea)) as ?int_nea) (sum(xsd:integer(?neg)) as ?int_neg) (sum(xsd:integer(?nacc)) as ?int_nacc) 
+WHERE{
+
+
+  ?set gams:isMemberOfCollection ?collection;
+       depcha:numberOfTransactions ?nt;
+       depcha:numberOfEconomicAgents ?nea;
+       depcha:numberOfEconomicGoods ?neg;
+       depcha:numberOfAccounts ?nacc.
+}
+GROUP BY ?collection

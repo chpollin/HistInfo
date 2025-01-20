@@ -1,0 +1,282 @@
+#edition-nav {
+    top: 72px;
+}
+
+#economic-agents-nav {
+    top: 180px;
+}
+
+#economic-agents-card-body {
+    padding: 0rem;
+}
+
+
+/* Edition view switch  */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 15px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 11px;
+    width: 11px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: black;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+.slider.round {
+    border-radius: 15px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.small-text {
+    font-size: small;
+}
+
+.center {
+    margin: auto;
+}
+
+#entity-view-switch {
+    display: none;
+}
+
+#placeholder {
+    color: white;
+}
+
+#decolourise,
+#stylekey,
+#currency,
+.account-book {
+    display: none;
+}
+
+#stylekey {
+    font-size: 0.8rem;
+    top: 180px;
+}
+
+#edition-container {
+    top: 250px;
+}
+
+#currency {
+    font-size: 0.8rem;
+    color: grey;
+}
+
+.item {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    text-align: center;
+}
+
+.entry {
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+    background-color: white;
+}
+
+/*.debit {
+    border: 1px dashed #c7ecc7;
+    border-radius: 0.2rem;
+    background-color: white;
+}
+
+.credit {
+    border: 1px dashed #E4D6F1;
+    border-radius: 0.2rem;
+    background-color: white;
+}*/
+
+.subtotal {
+    border-bottom: 1px solid #000;
+}
+
+.total {
+    border-bottom: 3px double #000;
+}
+
+.bg-ea {
+    background-color: #ccb3e6;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-ea-individual {
+    background-color: #a679d2;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-ea-group {
+    background-color: #8040bf;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-ea-organisation {
+    background-color: #592d86;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-eg {
+    background-color: #b2e5b2;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-eg-commodity {
+    background-color: #75D175;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-eg-service {
+    background-color: #39ac39;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-eg-right {
+    background-color: #2d862d;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-place {
+    background-color: #724933;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.bg-date {
+    background-color: #505050;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.1rem
+}
+
+.numeric-value {
+    font-family: 'Courier New', monospace;
+    color: grey;
+}
+
+.account {
+    border-left: 1px dashed;
+    margin: 1rem;
+    padding: 0.25rem;   
+}
+
+.account-style {
+    border-left: 1px dashed;
+}
+
+
+/*.account {
+    padding-left: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    border-top: 1px solid #A9A9A9;
+    border-left: 1px solid #A9A9A9;
+    border-radius: 0.2rem;
+    background-color: #F8F8F8;
+}
+
+.account-key {
+    border-top: 1px solid #A9A9A9;
+    border-left: 1px solid #A9A9A9;
+    border-radius: 0.2rem;
+    background-color: #F8F8F8;
+    color: #A9A9A9;
+    font-weight: bold;
+}*/
+
+/*.account-key:before {
+    content:"";
+    display: inline-block;
+    height: 2px;
+    width: 1rem; 
+    background: #A9A9A9;
+    vertical-align: middle; 
+}*/
+
+/*.account-title {
+    padding-bottom: 1rem;
+    font-weight: bold;
+    color: #A9A9A9;
+    display: none;
+}*/
+
+/* .account-title:before {
+  content:"";
+  display: inline-block;
+  height: 2px;
+  width: 4rem; 
+  background: #A9A9A9;
+  vertical-align: middle;
+} */
+
+ol,
+li {
+    padding: 0px 0px 16px;
+}
+
+
+
+/* eigenen Font anlegen -> calculator/scoreboard font
+ * @font-face{
+ font-family:'digital-clock-font';
+ src: url('put_the_location_to_your_font.ttf or .otf');
+} */
+

@@ -1,0 +1,67 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX bk: <https://gams.uni-graz.at/o:depcha.bookkeeping#>
+PREFIX gams:<https://gams.uni-graz.at/o:gams-ontology#>
+PREFIX foaf:<http://xmlns.com/foaf/spec/>
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX depcha:<https://gams.uni-graz.at/o:depcha.ontology#>
+
+# author: Christopher Pollin
+# $1: URI of dataset = object, referenced by gams:isPartOf (e.g. <https://gams.uni-graz.at/o:depcha.wheaton.1>)
+# $2: Optional Limit for preview (eg. 'LIMIT 100')
+# result: returns transactions from a dataset ($1) with bk:entry (?e), bk:from (?f), bk:to (?to), bk:when (?w) etc. 
+
+# ?c  ... measurable_class (bk:classified of ?m)
+# ?cl ... measurable_class_label (e.g.: 'work')
+# ?e  ... bk:entry
+# ?f  ... bk:from
+# ?fn ... from_label
+# ?m  ... measurable
+# ?ml ... measurable_type_label ('Commodity'|'Monetary Value'|'Service')
+# ?mt ... measurable_type (bk:Commodity|bk:Money|bk:Service)
+# ?q  ... bk:quantity
+# ?t  ... bk:Transaction
+# ?tn ... to_label
+# ?to ... bk:to
+# ?tr ... bk:Transfer
+# ?u  ... bk:unit
+# ?ul ... unit_label
+# ?w  ... bk:when
+
+SELECT ?t ?tr ?e ?w ?f ?fn ?to ?tn (GROUP_CONCAT(?measure; SEPARATOR = '; ') AS ?measure) ?c ?cl ?ml
+WHERE{
+  ?t a bk:Transaction;
+    gams:isPartOf $1;
+    bk:entry ?e;
+	  bk:consistsOf ?tr.
+  
+  OPTIONAL{?t bk:when ?w.}
+  
+  OPTIONAL{
+    ?tr bk:from ?f.
+    OPTIONAL{?f rdfs:label ?fn.}
+  }
+  
+  OPTIONAL{
+      ?tr bk:to ?to.
+      OPTIONAL{?to rdfs:label ?tn.}
+  }
+  
+  ?tr bk:transfers ?m.
+  ?m a ?mt;
+     bk:unit ?u;
+     bk:quantity ?q.
+  
+  ?mt rdfs:label ?ml.
+  FILTER (LANG(?ml)='en')
+  
+  OPTIONAL{?u rdfs:label ?ul.}
+  
+  BIND (CONCAT(?q, ' ', COALESCE(?ul, STRAFTER(STR(?u), '#'))) AS ?measure)
+  
+  OPTIONAL{
+    ?m bk:classified ?c.
+    OPTIONAL{?c rdfs:label ?cl.}
+	}
+}
+GROUP BY ?t ?tr ?e ?w ?f ?fn ?to ?tn ?c ?cl ?ml

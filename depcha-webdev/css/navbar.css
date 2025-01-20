@@ -1,0 +1,32 @@
+
+.site-header {
+  background-color: rgba(33, 33, 33, 1);
+}
+
+.site-header .dropdown-menu {
+  background-color: rgba(33, 33, 33, 1);
+  border:none;
+}
+
+.site-header .dropdown-menu li{
+  padding:0;
+}
+
+.site-header a {
+  color: #f8f9fa;
+  transition: color .15s ease-in-out;
+}
+.site-header a:hover,
+.site-header a:focus
+{
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Central alignment of navbar */
+
+#navbarSupportedContent {
+    flex-grow: 0;
+}
+
+
