@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Basel Account Books: D3.js Treemap</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    /* Layout */
+    #controls {
+      margin-bottom: 1rem;
+    }
+    #chart {
+      position: relative;
+      width: 1200px;
+      height: 700px;
+      border: 1px solid #ccc;
+    }
+    #breadcrumb {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    /* Treemap node styling */
+    .node {
+      position: absolute;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .node:hover {
+      outline: 3px solid gold;
+    }
+    .label {
+      padding: 4px;
+      font-size: 12px;
+      pointer-events: none; /* Let clicks pass through div to .node handler */
+    }
+
+    /* Tooltip styling */
+    #tooltip {
+      position: absolute;
+      padding: 8px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      border-radius: 4px;
+      pointer-events: none;
+      visibility: hidden;
+      z-index: 10;
+      font-size: 12px;
+      max-width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Basel Account Books: D3.js Treemap</h1>
+  <p>Click a rectangle to zoom in; click again near the top to zoom out.</p>
+
+  <!-- Controls (timeline slider, search, filter, export) -->
+  <div id="controls">
+    <label for="yearSlider">Year:</label>
+    <input type="range" id="yearSlider" min="1535" max="1610" value="1535" step="1" />
+    <span id="yearLabel">1535</span>
+
+    <input type="text" id="searchInput" placeholder="Search category..." />
+
+    <button id="exportBtn">Export Visible Data</button>
+  </div>
+
+  <!-- A dynamic breadcrumb to show the user’s location in the hierarchy -->
+  <div id="breadcrumb"></div>
+
+  <!-- The treemap container -->
+  <div id="chart"></div>
+
+  <!-- Tooltip for hover details -->
+  <div id="tooltip"></div>
+
+  <script>
+    // ------------------------------------------------------------------
+    // 1) DEFINE COLOR SCALES
+    // ------------------------------------------------------------------
+    // Per your design doc, we want:
+    // - Revenue (blue), Expenditure (purple)
+    // - City (warm), Territorial (cool)
+    //
+    // We'll create a color map based on (type, administration).
+    // For a quick approach: "Revenue/City" => one color, "Revenue/Territorial" => another, etc.
+    // Or we can use a palette if you prefer.
+    const colorMap = {
+      "Revenue|City": "#6baed6",         // a cooler blue
+      "Revenue|Territorial": "#3182bd", // a darker blue
+      "Expenditure|City": "#9e9ac8",    // a lighter purple
+      "Expenditure|Territorial": "#756bb1" // a darker purple
+    };
+
+    // A fallback color if we encounter unknown type/administration
+    const defaultColor = "#ccc";
+
+    function getNodeColor(d) {
+      const t = d.data.type || "Unknown";
+      const a = d.data.administration || "Unknown";
+      const key = t + "|" + a;
+      return colorMap[key] || defaultColor;
+    }
+
+    // ------------------------------------------------------------------
+    // 2) LOAD THE DATA
+    // ------------------------------------------------------------------
+    let fullData = [];   // all years
+    let filteredData = null; // data for the currently selected year/period, post-search
+
+    // We'll assume we have "accounts_hierarchy.json" in the same directory.
+    d3.json("accounts_hierarchy.json").then(data => {
+      fullData = data;
+      initSlider(data);
+      updateDataAndRender();
+    });
+
+    // ------------------------------------------------------------------
+    // 3) YEAR SLIDER
+    // ------------------------------------------------------------------
+    const slider = document.getElementById("yearSlider");
+    const yearLabel = document.getElementById("yearLabel");
+
+    slider.addEventListener("input", () => {
+      yearLabel.textContent = slider.value;
+      updateDataAndRender();
+    });
+
+    // We automatically set the slider bounds based on the min/max years in your data
+    function initSlider(data) {
+      const years = data.map(d => d.year);
+      const minYear = d3.min(years);
+      const maxYear = d3.max(years);
+      slider.min = minYear;
+      slider.max = maxYear;
+      slider.value = minYear; // default
+      yearLabel.textContent = minYear;
+    }
+
+    // ------------------------------------------------------------------
+    // 4) SEARCH BOX
+    // ------------------------------------------------------------------
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", () => {
+      updateDataAndRender();
+    });
+
+    function matchesSearch(name, query) {
+      return name.toLowerCase().includes(query.toLowerCase());
+    }
+
+    // ------------------------------------------------------------------
+    // 5) FILTER & BUILD HIERARCHY FOR SELECTED YEAR
+    // ------------------------------------------------------------------
+    function getDataForYear(year) {
+      // finds the record with matching .year
+      // if data is an array, we do a simple find or fallback
+      const found = fullData.find(d => d.year === year);
+      if (!found) {
+        return { year, period: "", categories: [] };
+      } else {
+        return found;
+      }
+    }
+
+    // We'll define a function that transforms the nested category data into a D3 hierarchy.
+    // But first, we also apply a "search filter" that prunes out subtrees that do not match.
+    function filterAndBuildHierarchy(categories, searchQuery) {
+      // Recursively filter categories that match the search or have a child that matches
+      function filterNode(node) {
+        // If there's no children property, it might be a leaf
+        const childArray = node.children || [];
+
+        // Filter children first
+        const newChildren = childArray
+          .map(c => filterNode(c))
+          .filter(c => c !== null);
+
+        // This node matches if the name includes the search term,
+        // or if any children remain after filtering
+        const nameMatches = matchesSearch(node.name, searchQuery);
+        if (nameMatches || newChildren.length > 0 || !searchQuery) {
+          // Return a new node with filtered children
+          return {
+            ...node,
+            children: newChildren
+          };
+        }
+        return null;
+      }
+
+      // Filter top-level categories
+      const filteredCats = categories
+        .map(cat => filterNode(cat))
+        .filter(cat => cat !== null);
+
+      // Build a single fake root so we can do one treemap
+      // shape: { name: "root", children: filteredCats }
+      return {
+        name: "ROOT",
+        children: filteredCats
+      };
+    }
+
+    // ------------------------------------------------------------------
+    // 6) BUILD & RENDER TREEMAP
+    // ------------------------------------------------------------------
+    let currentNode = null; // for zooming
+    const chartDiv = d3.select("#chart");
+    const tooltip = d3.select("#tooltip");
+    const breadcrumb = d3.select("#breadcrumb");
+
+    function updateDataAndRender() {
+      // 1) Get the current slider year
+      const year = +slider.value; // convert to number
+      const data = getDataForYear(year);
+
+      // 2) Build a filtered hierarchy from data.categories, using the search query
+      const searchQuery = searchInput.value.trim();
+      const rootData = filterAndBuildHierarchy(data.categories, searchQuery);
+
+      // 3) Convert to a D3 hierarchy
+      const root = d3.hierarchy(rootData)
+        // sum amounts at each node
+        .sum(d => d.amount || 0)
+        .sort((a, b) => b.value - a.value);
+
+      // 4) Layout with treemap
+      const treemapLayout = d3.treemap()
+        .size([chartDiv.node().offsetWidth, chartDiv.node().offsetHeight])
+        .padding(2);
+
+      treemapLayout(root);
+      currentNode = root;
+
+      // 5) Render the treemap
+      renderTreemap(root);
+    }
+
+    function renderTreemap(root) {
+      // Remove any existing .node
+      chartDiv.selectAll(".node").remove();
+
+      // Bind data
+      const nodes = chartDiv
+        .selectAll(".node")
+        .data(root.descendants(), d => d.data.name);
+
+      // Enter
+      const nodeEnter = nodes.enter().append("div")
+        .attr("class", "node")
+        .style("left", d => d.x0 + "px")
+        .style("top", d => d.y0 + "px")
+        .style("width", d => (d.x1 - d.x0) + "px")
+        .style("height", d => (d.y1 - d.y0) + "px")
+        .style("background", getNodeColor)
+        .on("click", (event, d) => {
+          // Zoom in or out
+          if (currentNode === d && d.parent) {
+            zoom(root); // zoom out if same node is clicked
+          } else {
+            zoom(d);
+          }
+          event.stopPropagation();
+        })
+        .on("mousemove", (event, d) => {
+          // Show tooltip
+          const [mouseX, mouseY] = d3.pointer(event);
+          tooltip.style("left", (mouseX + 20) + "px")
+                 .style("top", (mouseY) + "px");
+
+          // Build tooltip HTML
+          const amount = d.data.amount != null ? d.data.amount.toFixed(2) : "(sum of children)";
+          tooltip.html(`
+            <strong>${d.data.name}</strong><br/>
+            Type: ${d.data.type || "N/A"}<br/>
+            Admin: ${d.data.administration || "N/A"}<br/>
+            Amount: ${amount}<br/>
+            <small>(Click to zoom in/out)</small>
+          `);
+          tooltip.style("visibility", "visible");
+        })
+        .on("mouseleave", () => {
+          tooltip.style("visibility", "hidden");
+        });
+
+      // Add label inside each node
+      nodeEnter.append("div")
+        .attr("class", "label")
+        .text(d => d.data.name);
+
+      // Merge + exit (not strictly needed if re-creating from scratch each time)
+      nodes.exit().remove();
+    }
+
+    // ------------------------------------------------------------------
+    // 7) ZOOM + BREADCRUMB
+    // ------------------------------------------------------------------
+    function zoom(targetNode) {
+      currentNode = targetNode;
+      const x0 = targetNode.x0;
+      const y0 = targetNode.y0;
+      const x1 = targetNode.x1;
+      const y1 = targetNode.y1;
+      const kx = chartDiv.node().offsetWidth / (x1 - x0);
+      const ky = chartDiv.node().offsetHeight / (y1 - y0);
+
+      const nodes = chartDiv.selectAll(".node");
+
+      nodes.transition()
+        .duration(750)
+        .style("left", d => (d.x0 - x0) * kx + "px")
+        .style("top", d => (d.y0 - y0) * ky + "px")
+        .style("width", d => (d.x1 - d.x0) * kx + "px")
+        .style("height", d => (d.y1 - d.y0) * ky + "px");
+
+      updateBreadcrumb(targetNode);
+    }
+
+    function updateBreadcrumb(node) {
+      // Build a path from root to node
+      let path = node.ancestors().reverse();
+      // Remove the artificial "ROOT" label from the display if desired
+      if (path.length && path[0].data.name === "ROOT") {
+        path = path.slice(1);
+      }
+      const names = path.map(d => d.data.name).join(" > ");
+      breadcrumb.text(names || "(No selection)");
+    }
+
+    // ------------------------------------------------------------------
+    // 8) EXPORT BUTTON
+    // ------------------------------------------------------------------
+    const exportBtn = document.getElementById("exportBtn");
+    exportBtn.addEventListener("click", () => {
+      // For demonstration, we’ll export the visible hierarchy as JSON
+      // (In practice, you might let users export CSV, or the raw data for the selected year, etc.)
+      const year = +slider.value;
+      const searchQuery = searchInput.value.trim();
+      const data = getDataForYear(year);
+      const rootData = filterAndBuildHierarchy(data.categories, searchQuery);
+
+      const blob = new Blob([JSON.stringify(rootData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `BaselData_Year${year}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+  </script>
+
+</body>
+</html>

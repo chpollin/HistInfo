@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Basel Financial Accounts (1535–1610) - Unified Treemap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Our main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Optional web font -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
+  />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Basel Financial Accounts (1535–1610)</h1>
+    <p class="header-subtitle">
+      A single treemap showing both Einnahmen (blue) and Ausgaben (orange).
+      Filter by year, zoom to see subaccounts, and search or export data as CSV.
+    </p>
+  </header>
+
+  <!-- Main layout (3 columns) -->
+  <main class="main-layout-3col">
+
+    <!-- Left Pane: Year Sliders, Search, Net Balance -->
+    <aside class="left-pane">
+      <section class="controls-section">
+
+        <!-- Year Range Sliders (no Filter button) -->
+        <div class="year-range">
+          <div class="slider-group">
+            <label for="yearFromSlider">
+              From:
+              <span id="yearFromValue" class="slider-value">1535</span>
+            </label>
+            <input
+              type="range"
+              id="yearFromSlider"
+              min="1535"
+              max="1610"
+              value="1535"
+              step="1"
+            />
+          </div>
+
+          <div class="slider-group">
+            <label for="yearToSlider">
+              To:
+              <span id="yearToValue" class="slider-value">1610</span>
+            </label>
+            <input
+              type="range"
+              id="yearToSlider"
+              min="1535"
+              max="1610"
+              value="1610"
+              step="1"
+            />
+          </div>
+        </div>
+
+        <!-- Search & Export -->
+        <div id="extra-controls" class="extra-controls">
+          <input
+            type="text"
+            id="searchBox"
+            placeholder="Search subaccount..."
+          />
+          <button id="searchButton" class="btn btn-primary">Search</button>
+          <button id="exportButton" class="btn btn-primary">Export CSV</button>
+        </div>
+
+        <!-- Net Balance Display -->
+        <div id="netBalance"></div>
+      </section>
+    </aside>
+
+    <!-- Center Pane: Treemap, Breadcrumb, Legend -->
+    <section class="center-pane treemap-section">
+      <!-- Breadcrumb bar (with reset zoom link) -->
+      <div id="breadcrumb"></div>
+
+      <!-- The treemap container -->
+      <div id="treemap" class="treemap"></div>
+
+      <!-- Dynamic color legend -->
+      <section id="dynamic-legend" class="treemap-legend"></section>
+    </section>
+
+    <!-- Right Pane: Info Panel -->
+    <aside class="right-info-pane">
+      <section id="info-panel">
+        <h2>About This Treemap</h2>
+        <p>
+          This treemap splits data into two main categories: Einnahmen and
+          Ausgaben. You can zoom into each account to see subaccounts.
+          The year sliders at left filter the data dynamically.
+        </p>
+        <p>
+          Hover over any tile to see details, click a tile to zoom in or out,
+          and use the search bar to highlight specific subaccounts. The net
+          balance is color-coded (green if ≥ 0, red if negative).
+        </p>
+      </section>
+    </aside>
+
+  </main>
+
+  <!-- D3 and main JS -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
